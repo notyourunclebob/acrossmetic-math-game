@@ -48,9 +48,10 @@ export default function Gamegrid({ gameData, gameOptions }:GameProps) {
                                             <div className="size-8 content-center">
                                                 {c > 0 ? col.operatorCol : ""}
                                             </div>
-                                            <div className="size-8 bg-amber-200 rounded-md content-center">
+                                            {/* <div className="size-8 bg-amber-200 rounded-md content-center">
                                                 {col.number}
-                                            </div>
+                                            </div> */}
+                                            <input type="number" min="1" max="9" className="size-8 bg-amber-200 rounded-md text-center" />
                                         </div>
                                     )}
                                 </div>

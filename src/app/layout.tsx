@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Crossmetic",
+  title: "Acrossmetic",
   description: "A cross arithmetic puzzle game"
 };
 
