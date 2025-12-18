@@ -18,11 +18,10 @@ export interface GameRows {
 }
 
 export interface GameCols {
-    number: number
+    number: number;
     operatorCol: string;
     operatorRow: string;
 }
-
 // -------------------------------- props
 export interface GameProps {
     gameOptions:GameOptions;

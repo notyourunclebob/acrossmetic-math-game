@@ -1,6 +1,7 @@
 
 import { GameCols, GameData, GameOperators, GameOptions, GameRows } from "./game.model";
 
+
 export function executeOperation(opperator:string, x:number, y:number) {
     
     // selects approiate operation depending on selected operator
