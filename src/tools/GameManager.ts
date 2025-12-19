@@ -140,6 +140,25 @@ export function calculateCols(gameData:GameData) {
     return colSums;
 };
 
+export function campareRow(row:number, rowSums:number[], inputs:number[][], data:GameData) {
+
+    let inputSum = 0;
+
+    for (let x:number = 0; x < inputs[row].length; x++) {
+        let number:number = inputs[row][x];
+        let operator:string = data.gameRows[row].gameCols[x].operatorCol;
+
+        inputSum = executeOperation(operator, inputSum, number);
+    };
+
+    if (inputSum == rowSums[row]) {
+        return true;
+    } else {
+        return false;
+    };
+
+}
+
 export function testGameData() {
     // testing data
     let gameData:GameData = {

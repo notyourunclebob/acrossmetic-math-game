@@ -6,15 +6,17 @@ import { useEffect, useState } from "react";
 
 export default function Gamegrid({ gameData, gameOptions }:GameProps) {
 
-    // ---------------------------------------------------- action events
+    // ---------------------------------------------------- functions
 
     // updates the input list with imputs maintaining their respective row and col index
     const updateInputs = (value:number, row:number, col:number) => {
+
         setInputs(grid => ({
             ...grid, [row]: {
                 ...(grid[row] || {}), [col]: value
             }
         }));
+
     };
     
     // ---------------------------------------------------- state variables
@@ -22,8 +24,10 @@ export default function Gamegrid({ gameData, gameOptions }:GameProps) {
     const [colSums, setColSums] = useState<number[]>([]);
     const [data, setData] = useState<GameData>();
 
-    // holds a list of userinputs
+    // holds a list of user inputs
     const [inputs, setInputs] = useState<Record<number, Record<number, number>>>({});
+    const [validRows, setValidRows] = useState<boolean[]>([]);
+    const [validCols, setValidCols] = useState<boolean[]>([]);
 
     useEffect( () => {
         
@@ -68,7 +72,8 @@ export default function Gamegrid({ gameData, gameOptions }:GameProps) {
                                                 min="1" 
                                                 max="9"
                                                 onChange={(e) => updateInputs(Number(e.target.value), r, c)}
-                                                className="size-8 bg-amber-200 rounded-md text-center" />
+                                                className="size-8 bg-amber-200 rounded-md text-center" 
+                                            />
                                         </div>
                                     )}
                                 </div>
