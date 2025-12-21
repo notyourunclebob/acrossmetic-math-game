@@ -1,7 +1,7 @@
 "use client";
 
 import { GameProps, GameCols, GameRows, GameData} from "@/tools/game.model";
-import { calculateCols, calculateRows } from "@/tools/GameManager";
+import { calculateCols, calculateRows, compareCol, compareRow } from "@/tools/GameManager";
 import { useEffect, useState } from "react";
 
 export default function Gamegrid({ gameData, gameOptions }:GameProps) {
@@ -17,6 +17,7 @@ export default function Gamegrid({ gameData, gameOptions }:GameProps) {
             }
         }));
 
+        // console.log(inputs);
     };
     
     // ---------------------------------------------------- state variables
@@ -26,8 +27,8 @@ export default function Gamegrid({ gameData, gameOptions }:GameProps) {
 
     // holds a list of user inputs
     const [inputs, setInputs] = useState<Record<number, Record<number, number>>>({});
-    const [validRows, setValidRows] = useState<boolean[]>([]);
-    const [validCols, setValidCols] = useState<boolean[]>([]);
+    const [validRows, setValidRows] = useState<Record<number, boolean>>({});
+    const [validCols, setValidCols] = useState<Record<number, boolean>>({});
 
     useEffect( () => {
         
@@ -40,15 +41,43 @@ export default function Gamegrid({ gameData, gameOptions }:GameProps) {
             console.log(data);
         };
         
-    },[data]); 
+    },[data]);
+    
+    useEffect( () => {
+
+        for (let x:number = 0; x < gameOptions.gameSize; x++) {
+
+            const rowLength = inputs[x] ? Object.keys(inputs[x]).length : 0;
+            const colLength = Object.values(inputs).filter( row => x in row).length;
+            
+            if (rowLength == gameOptions.gameSize) {
+
+                let isValid = compareRow(x, rowSums, inputs[x], data!);
+
+                setValidRows(list => ({
+                    ...list, [x]: isValid
+                }));
+            };
+
+            if (colLength == gameOptions.gameSize) {
+
+                let isValid = compareCol(x, colSums, inputs, data!);
+
+                setValidCols(list => ({
+                    ...list, [x]: isValid
+                }));
+            };
+        };
+
+    },[inputs]);
 
     return (
         <div className="flex flex-col justify-center items-center m-20">
-            <div>
+            {/* <div>
                 <button className="px-3 py-2 rounded-lg bg-amber-600 text-white">New Game</button>
-            </div>
+            </div> */}
 
-            <div className="flex flex-col size-fit gap-2">
+            <div className="flex flex-col size-fit gap-2 text-xl">
                 <div className="flex gap-2">
                     <div>
                         {gameData.gameRows.map(
@@ -57,11 +86,11 @@ export default function Gamegrid({ gameData, gameOptions }:GameProps) {
                                     {row.gameCols.map(
                                         (col:GameCols, c:number) =>
                                         <div key={c} className="grid grid-cols-2 gap-2 text-center">
-                                            <div className="size-8" />
-                                            <div className="size-8 content-center">
+                                            <div className="size-10" />
+                                            <div className="size-10 content-center">
                                                 {r > 0 ? col.operatorRow : ""}
                                             </div>
-                                            <div className="size-8 content-center">
+                                            <div className="size-10 content-center">
                                                 {c > 0 ? col.operatorCol : ""}
                                             </div>
                                             {/* <div className="size-8 bg-amber-200 rounded-md content-center">
@@ -72,7 +101,7 @@ export default function Gamegrid({ gameData, gameOptions }:GameProps) {
                                                 min="1" 
                                                 max="9"
                                                 onChange={(e) => updateInputs(Number(e.target.value), r, c)}
-                                                className="size-8 bg-amber-200 rounded-md text-center" 
+                                                className="size-10 bg-amber-200 rounded-md text-center" 
                                             />
                                         </div>
                                     )}
@@ -84,11 +113,11 @@ export default function Gamegrid({ gameData, gameOptions }:GameProps) {
                         {rowSums.map(
                             (sum:number, s:number) =>
                                 <div key={s} className="grid grid-cols-2 gap-2 text-center">
-                                    <div className="size-8 col-span-2"/>
-                                    <div className="size-8 content-center">
+                                    <div className="size-10 col-span-2"/>
+                                    <div className="size-10 content-center">
                                         =
                                     </div>
-                                    <div className="size-8 content-center">
+                                    <div className={`size-10 content-center rounded-md text-white ${validRows[s] ? "bg-green-500" : "bg-gray-500"}`}>
                                         {sum}
                                     </div>
                                 </div>
@@ -100,11 +129,11 @@ export default function Gamegrid({ gameData, gameOptions }:GameProps) {
                     {colSums.map(
                         (sum:number, s:number) =>
                             <div key={s} className="grid grid-cols-2 gap-2 text-center">
-                                <div className="size-8 row-span-2"/>
-                                <div className="size-8 content-center">
+                                <div className="size-10 row-span-2"/>
+                                <div className="size-10 content-center">
                                     =
                                 </div>
-                                <div className="size-8 content-center">
+                                <div className={`size-10 content-center rounded-md text-white ${validCols[s] ? "bg-green-500" : "bg-gray-500"}`}>
                                     {sum}
                                 </div>
                             </div>

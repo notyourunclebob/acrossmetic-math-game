@@ -54,6 +54,10 @@ __turbopack_context__.s([
     ()=>calculateCols,
     "calculateRows",
     ()=>calculateRows,
+    "compareCol",
+    ()=>compareCol,
+    "compareRow",
+    ()=>compareRow,
     "defaultGameOptions",
     ()=>defaultGameOptions,
     "executeOperation",
@@ -78,7 +82,7 @@ function executeOperation(opperator, x, y) {
 function defaultGameOptions() {
     // sets game options to default values
     let gameOptions = {
-        gameSize: 9,
+        gameSize: 3,
         gameOperators: [
             {
                 operator: "+"
@@ -173,6 +177,42 @@ function calculateCols(gameData) {
     }
     ;
     return colSums;
+}
+function compareRow(row, rowSums, inputs, data) {
+    let inputSum = 0;
+    let inputsLength = Object.keys(inputs).length;
+    // loops through inputs by row to get the sum
+    for(let x = 0; x < inputsLength; x++){
+        let number = inputs[x];
+        let operator = data.gameRows[row].gameCols[x].operatorCol;
+        inputSum = executeOperation(operator, inputSum, number);
+    }
+    ;
+    // checks if the input row sum matches the generated row sum and if the length matches the generated row
+    if (inputSum == rowSums[row] && inputsLength == data.gameRows[row].gameCols.length) {
+        return true;
+    } else {
+        return false;
+    }
+    //TURBOPACK unreachable
+    ;
+}
+function compareCol(col, colSums, inputs, data) {
+    let inputSum = 0;
+    let inputsLength = Object.values(inputs).filter((row)=>col in row).length;
+    for(let x = 0; x < inputsLength; x++){
+        let number = inputs[x][col];
+        let operator = data.gameRows[x].gameCols[col].operatorRow;
+        inputSum = executeOperation(operator, inputSum, number);
+    }
+    ;
+    if (inputSum == colSums[col] && inputsLength == data.gameRows.length) {
+        return true;
+    } else {
+        return false;
+    }
+    //TURBOPACK unreachable
+    ;
 }
 function testGameData() {
     // testing data

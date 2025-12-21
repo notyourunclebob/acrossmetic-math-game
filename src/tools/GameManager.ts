@@ -19,7 +19,7 @@ export function defaultGameOptions() {
     
     // sets game options to default values
     let gameOptions:GameOptions = {
-        gameSize: 9,
+        gameSize: 3,
         gameOperators: [
             {operator: "+"},
             {operator: "-"}
@@ -140,24 +140,49 @@ export function calculateCols(gameData:GameData) {
     return colSums;
 };
 
-export function campareRow(row:number, rowSums:number[], inputs:number[][], data:GameData) {
+export function compareRow(row:number, rowSums:number[], inputs:Record<number, number>, data:GameData) {
 
-    let inputSum = 0;
+    let inputSum:number = 0;
 
-    for (let x:number = 0; x < inputs[row].length; x++) {
-        let number:number = inputs[row][x];
+    let inputsLength = Object.keys(inputs).length;
+    
+    // loops through inputs by row to get the sum
+    for (let x:number = 0; x < inputsLength; x++) {
+        let number:number = inputs[x];
         let operator:string = data.gameRows[row].gameCols[x].operatorCol;
 
         inputSum = executeOperation(operator, inputSum, number);
     };
 
-    if (inputSum == rowSums[row]) {
+    // checks if the input row sum matches the generated row sum and if the length matches the generated row
+    if (inputSum == rowSums[row] && inputsLength == data.gameRows[row].gameCols.length) {
         return true;
     } else {
         return false;
     };
 
-}
+};
+
+export function compareCol(col:number, colSums:number[], inputs:Record<number, Record<number, number>>, data:GameData) {
+    
+    let inputSum:number = 0;
+
+    let inputsLength = Object.values(inputs).filter( row => col in row).length;
+
+    for (let x:number = 0; x < inputsLength; x++) {
+
+        let number:number = inputs[x][col];
+        let operator:string = data.gameRows[x].gameCols[col].operatorRow;
+
+        inputSum = executeOperation(operator, inputSum, number);
+    };
+
+    if (inputSum == colSums[col] && inputsLength == data.gameRows.length) {
+        return true;
+    } else {
+        return false;
+    };
+};
 
 export function testGameData() {
     // testing data
