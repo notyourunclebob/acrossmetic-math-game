@@ -774,6 +774,26 @@
     height: fit-content;
   }
 
+  .h-10 {
+    height: calc(var(--spacing) * 10);
+  }
+
+  .w-10 {
+    width: calc(var(--spacing) * 10);
+  }
+
+  .w-20 {
+    width: calc(var(--spacing) * 20);
+  }
+
+  .w-25 {
+    width: calc(var(--spacing) * 25);
+  }
+
+  .w-30 {
+    width: calc(var(--spacing) * 30);
+  }
+
   .w-fit {
     width: -moz-fit-content;
     width: fit-content;
@@ -842,6 +862,10 @@
     background-color: var(--color-amber-200);
   }
 
+  .bg-amber-500 {
+    background-color: var(--color-amber-500);
+  }
+
   .bg-amber-600 {
     background-color: var(--color-amber-600);
   }
@@ -872,6 +896,10 @@
 
   .text-center {
     text-align: center;
+  }
+
+  .align-middle {
+    vertical-align: middle;
   }
 
   .text-lg {

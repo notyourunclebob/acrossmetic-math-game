@@ -1,8 +1,9 @@
 "use client";
 
-import { GameProps, GameCols, GameRows, GameData} from "@/tools/game.model";
-import { calculateCols, calculateRows, compareCol, compareRow } from "@/tools/GameManager";
 import { useEffect, useState } from "react";
+import { GameProps, GameCols, GameRows, GameData, GameOptions} from "@/tools/game.model";
+import { calculateCols, calculateRows, compareCol, compareRow } from "@/tools/GameManager";
+import GameMenu from "./GameMenu";
 
 export default function Gamegrid({ gameData, gameOptions }:GameProps) {
 
@@ -41,12 +42,14 @@ export default function Gamegrid({ gameData, gameOptions }:GameProps) {
     const [rowSums, setRowSums] = useState<number[]>([]);
     const [colSums, setColSums] = useState<number[]>([]);
     const [data, setData] = useState<GameData>();
+    const [options, setOptions] = useState<GameOptions>();
 
     // holds a list of user inputs
     const [inputs, setInputs] = useState<Record<number, Record<number, number>>>({});
     const [validRows, setValidRows] = useState<Record<number, boolean>>({});
     const [validCols, setValidCols] = useState<Record<number, boolean>>({});
 
+    // sets game data to a useState and updates data when changed
     useEffect( () => {
         
         setData(gameData);
@@ -59,7 +62,15 @@ export default function Gamegrid({ gameData, gameOptions }:GameProps) {
         };
         
     },[data]);
+
+    // sets game options to a use state and updates when changed
+    useEffect( () => {
+
+        setOptions(gameOptions);
+
+    },[options]);
     
+    // compares input sums to generated sums
     useEffect( () => {
 
         for (let x:number = 0; x < gameOptions.gameSize; x++) {
@@ -90,9 +101,8 @@ export default function Gamegrid({ gameData, gameOptions }:GameProps) {
 
     return (
         <div className="flex flex-col justify-center items-center m-20">
-            {/* <div>
-                <button className="px-3 py-2 rounded-lg bg-amber-600 text-white">New Game</button>
-            </div> */}
+
+            <GameMenu options={options!} setOptions={setOptions}/>
 
             <div className="flex flex-col size-fit gap-2 text-xl">
                 <div className="flex gap-2">
