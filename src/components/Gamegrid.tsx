@@ -18,14 +18,22 @@ export default function Gamegrid({ gameData, gameOptions }:GameProps) {
         }));
     };
 
+    // note to self - concider looking into using key presses to change a value rather then using inputs
+
     // prevents invalid inputs by disabling key inputs
-    const handleKeyDown = (e:any) => {
+    const onKeyDown = (e:any) => {
         // allows backspace, del, tab, esc, enter and arrow keys
         if ([8, 46, 9 ,27, 13, 37, 38, 39, 40].includes(e.keyCode)) return;
 
         // restricts keys to 1-9
         if (e.key < "1" || e.key > "9") {
             e.preventDefault();
+        };
+
+        // restricts inputs to one character
+        if (e.target.value >= 1) {
+            e.preventDefault();
+            return;
         };
     };
     
@@ -102,14 +110,11 @@ export default function Gamegrid({ gameData, gameOptions }:GameProps) {
                                             <div className="size-10 content-center">
                                                 {c > 0 ? col.operatorCol : ""}
                                             </div>
-                                            {/* <div className="size-8 bg-amber-200 rounded-md content-center">
-                                                {col.number}
-                                            </div> */}
                                             <input 
                                                 type="number" 
                                                 min="1" 
                                                 max="9"
-                                                onKeyDown={handleKeyDown}
+                                                onKeyDown={onKeyDown}
                                                 onChange={(e) => updateInputs(Number(e.target.value), r, c)}
                                                 className="size-10 bg-amber-200 rounded-md text-center" 
                                             />
