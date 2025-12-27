@@ -1,6 +1,8 @@
 
 import { GameCols, GameData, GameOperators, GameOptions, GameRows } from "./game.model";
 
+// regex validation for inputs
+export const inputValidate = new RegExp("[1-9]");
 
 export function executeOperation(opperator:string, x:number, y:number) {
     
@@ -155,7 +157,7 @@ export function compareRow(row:number, rowSums:number[], inputs:Record<number, n
     for (let x:number = 0; x < inputsLength; x++) {
         let number:number = inputs[x];
 
-        if (number != null && number > 0 && number <= 9 ) {
+        if (inputValidate.test(number.toString())) {
             let operator:string = data.gameRows[row].gameCols[x].operatorCol;
     
             inputSum = executeOperation(operator, inputSum, number);
@@ -183,7 +185,7 @@ export function compareCol(col:number, colSums:number[], inputs:Record<number, R
 
         let number:number = inputs[x][col];
 
-        if (number != null && number > 0 && number <= 9 ) {
+        if (inputValidate.test(number.toString())) {
             let operator:string = data.gameRows[x].gameCols[col].operatorRow;
 
             inputSum = executeOperation(operator, inputSum, number);

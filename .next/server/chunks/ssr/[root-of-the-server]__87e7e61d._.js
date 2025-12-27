@@ -64,9 +64,12 @@ __turbopack_context__.s([
     ()=>executeOperation,
     "generateGame",
     ()=>generateGame,
+    "inputValidate",
+    ()=>inputValidate,
     "testGameData",
     ()=>testGameData
 ]);
+const inputValidate = new RegExp("[1-9]");
 function executeOperation(opperator, x, y) {
     // selects approiate operation depending on selected operator
     switch(opperator){
@@ -189,7 +192,7 @@ function compareRow(row, rowSums, inputs, data) {
     // if number is not 1-9 returns false
     for(let x = 0; x < inputsLength; x++){
         let number = inputs[x];
-        if (number != null && number > 0 && number <= 9) {
+        if (inputValidate.test(number.toString())) {
             let operator = data.gameRows[row].gameCols[x].operatorCol;
             inputSum = executeOperation(operator, inputSum, number);
         } else {
@@ -212,7 +215,7 @@ function compareCol(col, colSums, inputs, data) {
     let inputsLength = Object.values(inputs).filter((row)=>col in row).length;
     for(let x = 0; x < inputsLength; x++){
         let number = inputs[x][col];
-        if (number != null && number > 0 && number <= 9) {
+        if (inputValidate.test(number.toString())) {
             let operator = data.gameRows[x].gameCols[col].operatorRow;
             inputSum = executeOperation(operator, inputSum, number);
         } else {
