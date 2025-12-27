@@ -74,6 +74,10 @@ function executeOperation(opperator, x, y) {
             return x + y;
         case "-":
             return x - y;
+        case "x":
+            return x * y;
+        case "÷":
+            return x / y;
         default:
             throw Error("Unknown operation");
     }
@@ -180,12 +184,18 @@ function calculateCols(gameData) {
 }
 function compareRow(row, rowSums, inputs, data) {
     let inputSum = 0;
-    let inputsLength = Object.keys(inputs).length;
+    let inputsLength = Object.values(inputs).length;
     // loops through inputs by row to get the sum
+    // if number is not 1-9 returns false
     for(let x = 0; x < inputsLength; x++){
         let number = inputs[x];
-        let operator = data.gameRows[row].gameCols[x].operatorCol;
-        inputSum = executeOperation(operator, inputSum, number);
+        if (number != null && number > 0 && number <= 9) {
+            let operator = data.gameRows[row].gameCols[x].operatorCol;
+            inputSum = executeOperation(operator, inputSum, number);
+        } else {
+            return false;
+        }
+        ;
     }
     ;
     // checks if the input row sum matches the generated row sum and if the length matches the generated row
@@ -202,8 +212,13 @@ function compareCol(col, colSums, inputs, data) {
     let inputsLength = Object.values(inputs).filter((row)=>col in row).length;
     for(let x = 0; x < inputsLength; x++){
         let number = inputs[x][col];
-        let operator = data.gameRows[x].gameCols[col].operatorRow;
-        inputSum = executeOperation(operator, inputSum, number);
+        if (number != null && number > 0 && number <= 9) {
+            let operator = data.gameRows[x].gameCols[col].operatorRow;
+            inputSum = executeOperation(operator, inputSum, number);
+        } else {
+            return false;
+        }
+        ;
     }
     ;
     if (inputSum == colSums[col] && inputsLength == data.gameRows.length) {

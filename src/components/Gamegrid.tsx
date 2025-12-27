@@ -16,8 +16,6 @@ export default function Gamegrid({ gameData, gameOptions }:GameProps) {
                 ...(grid[row] || {}), [col]: value
             }
         }));
-
-        // console.log(inputs);
     };
     
     // ---------------------------------------------------- state variables
@@ -47,8 +45,8 @@ export default function Gamegrid({ gameData, gameOptions }:GameProps) {
 
         for (let x:number = 0; x < gameOptions.gameSize; x++) {
 
-            const rowLength = inputs[x] ? Object.keys(inputs[x]).length : 0;
-            const colLength = Object.values(inputs).filter( row => x in row).length;
+            const rowLength = inputs[x] ? Object.values(inputs[x]).length : 0;
+            const colLength = Object.values(inputs).filter(row => x in row).length;
             
             if (rowLength == gameOptions.gameSize) {
 
