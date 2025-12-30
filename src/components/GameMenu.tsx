@@ -6,8 +6,10 @@ import { useState } from "react";
 
 export default function GameMenu( {options, setOptions, setGameState} : { options:GameOptions, setOptions:Function, setGameState:Function } ) {
 
+    // -------------------------------------------------- action events
     const onOperatorSelect = (e:any) => {
 
+        // builds a list with selected operators
         setSelectedOperators(prev => {
             if (prev.some(item => item.operator == e.operator)) {
                 return prev.filter(item => item.operator != e.operator);
@@ -18,6 +20,8 @@ export default function GameMenu( {options, setOptions, setGameState} : { option
     };
 
     const newGame = (e:any) => {
+
+        // updates options used for a new game
         setOptions({
             gameSize: selectedSize,
             gameOperators: selectedOperators
@@ -44,7 +48,7 @@ export default function GameMenu( {options, setOptions, setGameState} : { option
                                 name="gameSize" 
                                 id={`${value}x`} 
                                 value={value}
-                                checked={options != null ? options.gameSize == value : false}
+                                // checked={options != null ? options.gameSize == value : false}
                                 onChange={(e:any) => setSelectedSize(e.target.value)}
                             />
                         </div>
@@ -62,7 +66,7 @@ export default function GameMenu( {options, setOptions, setGameState} : { option
                             id={operators.operator} 
                             name="operators" 
                             value={operators.operator}
-                            checked={options != null ? options.gameOperators.some(item => item.operator == operators.operator) : false}
+                            // checked={options != null ? options.gameOperators.some(item => item.operator == operators.operator) : false}
                             onChange={() => onOperatorSelect(operators)}
                         />
                     </div>

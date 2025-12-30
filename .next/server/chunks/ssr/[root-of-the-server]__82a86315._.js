@@ -432,7 +432,9 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist
 ;
 ;
 function GameMenu({ options, setOptions, setGameState }) {
+    // -------------------------------------------------- action events
     const onOperatorSelect = (e)=>{
+        // builds a list with selected operators
         setSelectedOperators((prev)=>{
             if (prev.some((item)=>item.operator == e.operator)) {
                 return prev.filter((item)=>item.operator != e.operator);
@@ -449,6 +451,7 @@ function GameMenu({ options, setOptions, setGameState }) {
         });
     };
     const newGame = (e)=>{
+        // updates options used for a new game
         setOptions({
             gameSize: selectedSize,
             gameOperators: selectedOperators
@@ -468,7 +471,7 @@ function GameMenu({ options, setOptions, setGameState }) {
                         children: "Game size:"
                     }, void 0, false, {
                         fileName: "[project]/src/components/GameMenu.tsx",
-                        lineNumber: 36,
+                        lineNumber: 40,
                         columnNumber: 17
                     }, this),
                     Array.from({
@@ -484,7 +487,7 @@ function GameMenu({ options, setOptions, setGameState }) {
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/GameMenu.tsx",
-                                    lineNumber: 41,
+                                    lineNumber: 45,
                                     columnNumber: 29
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -496,20 +499,20 @@ function GameMenu({ options, setOptions, setGameState }) {
                                     onChange: (e)=>setSelectedSize(e.target.value)
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/GameMenu.tsx",
-                                    lineNumber: 42,
+                                    lineNumber: 46,
                                     columnNumber: 29
                                 }, this)
                             ]
                         }, x, true, {
                             fileName: "[project]/src/components/GameMenu.tsx",
-                            lineNumber: 40,
+                            lineNumber: 44,
                             columnNumber: 25
                         }, this);
                     })
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/GameMenu.tsx",
-                lineNumber: 35,
+                lineNumber: 39,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -519,7 +522,7 @@ function GameMenu({ options, setOptions, setGameState }) {
                         children: "Operators:"
                     }, void 0, false, {
                         fileName: "[project]/src/components/GameMenu.tsx",
-                        lineNumber: 56,
+                        lineNumber: 60,
                         columnNumber: 17
                     }, this),
                     __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$tools$2f$GameManager$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["ALLOWED_OPERTORS"].map((operators)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -528,7 +531,7 @@ function GameMenu({ options, setOptions, setGameState }) {
                                     children: operators.operator
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/GameMenu.tsx",
-                                    lineNumber: 59,
+                                    lineNumber: 63,
                                     columnNumber: 25
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -540,19 +543,19 @@ function GameMenu({ options, setOptions, setGameState }) {
                                     onChange: ()=>onOperatorSelect(operators)
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/GameMenu.tsx",
-                                    lineNumber: 60,
+                                    lineNumber: 64,
                                     columnNumber: 25
                                 }, this)
                             ]
                         }, operators.operator, true, {
                             fileName: "[project]/src/components/GameMenu.tsx",
-                            lineNumber: 58,
+                            lineNumber: 62,
                             columnNumber: 21
                         }, this))
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/GameMenu.tsx",
-                lineNumber: 55,
+                lineNumber: 59,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -561,13 +564,13 @@ function GameMenu({ options, setOptions, setGameState }) {
                 children: "New Game"
             }, void 0, false, {
                 fileName: "[project]/src/components/GameMenu.tsx",
-                lineNumber: 72,
+                lineNumber: 76,
                 columnNumber: 13
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/GameMenu.tsx",
-        lineNumber: 34,
+        lineNumber: 38,
         columnNumber: 9
     }, this);
 }
