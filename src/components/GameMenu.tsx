@@ -2,7 +2,7 @@
 
 import { GameOptions, GameOperators } from "@/tools/game.model";
 import { MAX_GAME_SIZE, ALLOWED_OPERTORS } from "@/tools/GameManager";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function GameMenu( {options, setOptions, setGameState} : { options:GameOptions, setOptions:Function, setGameState:Function } ) {
 
@@ -33,6 +33,22 @@ export default function GameMenu( {options, setOptions, setGameState} : { option
     // ------------------------------------------ state variables
     const [selectedSize, setSelectedSize] = useState<number>();
     const [selectedOperators, setSelectedOperators] = useState<GameOperators[]>([]);
+    const [validOptions, setValidOptions] = useState<boolean>();
+
+    useEffect( () => {
+        if(options != null) {
+            setSelectedSize(options.gameSize);
+            setSelectedOperators(options.gameOperators);
+        };
+    },[options]);
+
+    useEffect( () => {
+        if (selectedOperators.length == 0 || selectedOperators == null || selectedSize == 0 || selectedSize == null){
+            setValidOptions(false);
+        } else {
+            setValidOptions(true);
+        };
+    },[selectedSize,selectedOperators]);
 
     return (
         <div className="flex flex-col gap-2">
@@ -48,7 +64,7 @@ export default function GameMenu( {options, setOptions, setGameState} : { option
                                 name="gameSize" 
                                 id={`${value}x`} 
                                 value={value}
-                                // checked={options != null ? options.gameSize == value : false}
+                                checked={selectedSize != null ? selectedSize == value : false}
                                 onChange={(e:any) => setSelectedSize(e.target.value)}
                             />
                         </div>
@@ -66,7 +82,7 @@ export default function GameMenu( {options, setOptions, setGameState} : { option
                             id={operators.operator} 
                             name="operators" 
                             value={operators.operator}
-                            // checked={options != null ? options.gameOperators.some(item => item.operator == operators.operator) : false}
+                            checked={selectedOperators != null ? selectedOperators.some(item => item.operator == operators.operator) : false}
                             onChange={() => onOperatorSelect(operators)}
                         />
                     </div>
@@ -74,8 +90,11 @@ export default function GameMenu( {options, setOptions, setGameState} : { option
             </div>
 
             <button 
-                className="w-25 h-10 bg-amber-500 text-white rounded-md"
+                className={`w-25 h-10 rounded-md ${
+                    validOptions ? "bg-amber-500 text-white hover:bg-amber-400" : "bg-white text-gray-500 border border-amber-500"
+                }`}
                 onClick={newGame}
+                disabled={!validOptions}
             >New Game</button>
         </div>
     );
