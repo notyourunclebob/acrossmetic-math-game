@@ -44,6 +44,7 @@ export default function GameMenu( {options, setOptions, setGameState} : { option
                                 name="gameSize" 
                                 id={`${value}x`} 
                                 value={value}
+                                checked={options != null ? options.gameSize == value : false}
                                 onChange={(e:any) => setSelectedSize(e.target.value)}
                             />
                         </div>
@@ -61,7 +62,7 @@ export default function GameMenu( {options, setOptions, setGameState} : { option
                             id={operators.operator} 
                             name="operators" 
                             value={operators.operator}
-                            // checked={options.gameOperators.some(item => item.operator == operators.operator)}
+                            checked={options != null ? options.gameOperators.some(item => item.operator == operators.operator) : false}
                             onChange={() => onOperatorSelect(operators)}
                         />
                     </div>
