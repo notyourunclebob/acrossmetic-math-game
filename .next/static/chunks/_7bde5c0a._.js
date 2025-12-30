@@ -22,9 +22,7 @@ __turbopack_context__.s([
     "executeOperation",
     ()=>executeOperation,
     "generateGame",
-    ()=>generateGame,
-    "testGameData",
-    ()=>testGameData
+    ()=>generateGame
 ]);
 const MAX_GAME_SIZE = 9;
 const ALLOWED_OPERTORS = [
@@ -33,6 +31,9 @@ const ALLOWED_OPERTORS = [
     },
     {
         operator: "-"
+    },
+    {
+        operator: "x"
     }
 ];
 const INPUT_VALIDATE = new RegExp("[1-9]");
@@ -197,218 +198,6 @@ function compareCol(col, colSums, inputs, data) {
     }
     //TURBOPACK unreachable
     ;
-}
-function testGameData() {
-    // testing data
-    let gameData = {
-        gameRows: [
-            {
-                gameCols: [
-                    {
-                        number: 1,
-                        operatorCol: "+",
-                        operatorRow: "+"
-                    },
-                    {
-                        number: 1,
-                        operatorCol: "+",
-                        operatorRow: "+"
-                    },
-                    {
-                        number: 6,
-                        operatorCol: "+",
-                        operatorRow: "+"
-                    },
-                    {
-                        number: 1,
-                        operatorCol: "-",
-                        operatorRow: "+"
-                    },
-                    {
-                        number: 1,
-                        operatorCol: "+",
-                        operatorRow: "+"
-                    },
-                    {
-                        number: 1,
-                        operatorCol: "+",
-                        operatorRow: "+"
-                    }
-                ]
-            },
-            {
-                gameCols: [
-                    {
-                        number: 1,
-                        operatorCol: "+",
-                        operatorRow: "-"
-                    },
-                    {
-                        number: 1,
-                        operatorCol: "+",
-                        operatorRow: "+"
-                    },
-                    {
-                        number: 1,
-                        operatorCol: "+",
-                        operatorRow: "+"
-                    },
-                    {
-                        number: 1,
-                        operatorCol: "+",
-                        operatorRow: "+"
-                    },
-                    {
-                        number: 1,
-                        operatorCol: "+",
-                        operatorRow: "+"
-                    },
-                    {
-                        number: 1,
-                        operatorCol: "+",
-                        operatorRow: "+"
-                    }
-                ]
-            },
-            {
-                gameCols: [
-                    {
-                        number: 1,
-                        operatorCol: "+",
-                        operatorRow: "+"
-                    },
-                    {
-                        number: 1,
-                        operatorCol: "+",
-                        operatorRow: "+"
-                    },
-                    {
-                        number: 1,
-                        operatorCol: "+",
-                        operatorRow: "+"
-                    },
-                    {
-                        number: 1,
-                        operatorCol: "+",
-                        operatorRow: "+"
-                    },
-                    {
-                        number: 1,
-                        operatorCol: "+",
-                        operatorRow: "+"
-                    },
-                    {
-                        number: 1,
-                        operatorCol: "+",
-                        operatorRow: "+"
-                    }
-                ]
-            },
-            {
-                gameCols: [
-                    {
-                        number: 1,
-                        operatorCol: "+",
-                        operatorRow: "+"
-                    },
-                    {
-                        number: 1,
-                        operatorCol: "+",
-                        operatorRow: "+"
-                    },
-                    {
-                        number: 1,
-                        operatorCol: "+",
-                        operatorRow: "+"
-                    },
-                    {
-                        number: 1,
-                        operatorCol: "+",
-                        operatorRow: "+"
-                    },
-                    {
-                        number: 1,
-                        operatorCol: "+",
-                        operatorRow: "+"
-                    },
-                    {
-                        number: 1,
-                        operatorCol: "+",
-                        operatorRow: "+"
-                    }
-                ]
-            },
-            {
-                gameCols: [
-                    {
-                        number: 7,
-                        operatorCol: "+",
-                        operatorRow: "+"
-                    },
-                    {
-                        number: 1,
-                        operatorCol: "+",
-                        operatorRow: "+"
-                    },
-                    {
-                        number: 1,
-                        operatorCol: "+",
-                        operatorRow: "+"
-                    },
-                    {
-                        number: 1,
-                        operatorCol: "+",
-                        operatorRow: "+"
-                    },
-                    {
-                        number: 1,
-                        operatorCol: "+",
-                        operatorRow: "+"
-                    },
-                    {
-                        number: 1,
-                        operatorCol: "+",
-                        operatorRow: "+"
-                    }
-                ]
-            },
-            {
-                gameCols: [
-                    {
-                        number: 7,
-                        operatorCol: "+",
-                        operatorRow: "+"
-                    },
-                    {
-                        number: 1,
-                        operatorCol: "+",
-                        operatorRow: "+"
-                    },
-                    {
-                        number: 1,
-                        operatorCol: "+",
-                        operatorRow: "+"
-                    },
-                    {
-                        number: 1,
-                        operatorCol: "+",
-                        operatorRow: "+"
-                    },
-                    {
-                        number: 1,
-                        operatorCol: "+",
-                        operatorRow: "+"
-                    },
-                    {
-                        number: 1,
-                        operatorCol: "+",
-                        operatorRow: "+"
-                    }
-                ]
-            }
-        ]
-    };
-    return gameData;
 }
 if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
     __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);

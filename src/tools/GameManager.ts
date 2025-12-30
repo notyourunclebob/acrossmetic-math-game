@@ -2,11 +2,11 @@
 import { GameCols, GameData, GameOperators, GameOptions, GameRows } from "./game.model";
 
 // game generation values
-// max game size is +1 to account for index 0 when looping
 export const MAX_GAME_SIZE = 9;
 export const ALLOWED_OPERTORS = [
     {operator:"+"},
-    {operator:"-"}
+    {operator:"-"},
+    {operator:"x"}
 ];
 
 // regex validation for inputs
@@ -207,74 +207,4 @@ export function compareCol(col:number, colSums:number[], inputs:Record<number, R
     } else {
         return false;
     };
-};
-
-export function testGameData() {
-    // testing data
-    let gameData:GameData = {
-        gameRows: [
-            { 
-                gameCols: [
-                    { number: 1, operatorCol: "+", operatorRow:"+" },
-                    { number: 1, operatorCol: "+", operatorRow:"+" },
-                    { number: 6, operatorCol: "+", operatorRow:"+" },
-                    { number: 1, operatorCol: "-", operatorRow:"+" },
-                    { number: 1, operatorCol: "+", operatorRow:"+" },
-                    { number: 1, operatorCol: "+", operatorRow:"+" },
-                ],
-            },
-            { 
-                gameCols: [
-                    { number: 1, operatorCol: "+", operatorRow:"-" },
-                    { number: 1, operatorCol: "+", operatorRow:"+" },
-                    { number: 1, operatorCol: "+", operatorRow:"+" },
-                    { number: 1, operatorCol: "+", operatorRow:"+" },
-                    { number: 1, operatorCol: "+", operatorRow:"+" },
-                    { number: 1, operatorCol: "+", operatorRow:"+" },
-                ],
-            },
-            { 
-                gameCols: [
-                    { number: 1, operatorCol: "+", operatorRow:"+" },
-                    { number: 1, operatorCol: "+", operatorRow:"+" },
-                    { number: 1, operatorCol: "+", operatorRow:"+" },
-                    { number: 1, operatorCol: "+", operatorRow:"+" },
-                    { number: 1, operatorCol: "+", operatorRow:"+" },
-                    { number: 1, operatorCol: "+", operatorRow:"+" },
-                ],
-            },
-            { 
-                gameCols: [
-                    { number: 1, operatorCol: "+", operatorRow:"+" },
-                    { number: 1, operatorCol: "+", operatorRow:"+" },
-                    { number: 1, operatorCol: "+", operatorRow:"+" },
-                    { number: 1, operatorCol: "+", operatorRow:"+" },
-                    { number: 1, operatorCol: "+", operatorRow:"+" },
-                    { number: 1, operatorCol: "+", operatorRow:"+" },
-                ],
-            },
-            { 
-                gameCols: [
-                    { number: 7, operatorCol: "+", operatorRow:"+" },
-                    { number: 1, operatorCol: "+", operatorRow:"+" },
-                    { number: 1, operatorCol: "+", operatorRow:"+" },
-                    { number: 1, operatorCol: "+", operatorRow:"+" },
-                    { number: 1, operatorCol: "+", operatorRow:"+" },
-                    { number: 1, operatorCol: "+", operatorRow:"+" },
-                ],
-            },
-            { 
-                gameCols: [
-                    { number: 7, operatorCol: "+", operatorRow:"+" },
-                    { number: 1, operatorCol: "+", operatorRow:"+" },
-                    { number: 1, operatorCol: "+", operatorRow:"+" },
-                    { number: 1, operatorCol: "+", operatorRow:"+" },
-                    { number: 1, operatorCol: "+", operatorRow:"+" },
-                    { number: 1, operatorCol: "+", operatorRow:"+" },
-                ],
-            },
-        ]
-    };
-
-    return (gameData);
 };
