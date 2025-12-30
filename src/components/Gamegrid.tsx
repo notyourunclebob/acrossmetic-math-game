@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { GameProps, GameCols, GameRows, GameData, GameOptions} from "@/tools/game.model";
-import { calculateCols, calculateRows, compareCol, compareRow } from "@/tools/GameManager";
+import { calculateCols, calculateRows, compareCol, compareRow, generateGame } from "@/tools/GameManager";
 import GameMenu from "./GameMenu";
 
 export default function Gamegrid({ gameData, gameOptions }:GameProps) {
@@ -49,10 +49,27 @@ export default function Gamegrid({ gameData, gameOptions }:GameProps) {
     const [validRows, setValidRows] = useState<Record<number, boolean>>({});
     const [validCols, setValidCols] = useState<Record<number, boolean>>({});
 
+    const [gameState, setGameState] = useState<number>(0);
+
     // sets game data to a useState and updates data when changed
     useEffect( () => {
+
+        if (gameState == 0) {
+            setOptions(gameOptions);
+            setData(gameData);
+
+        } else if (gameState == 1) {
+            if (options != null) {
+                setData(generateGame(options));
+                setInputs([]);
+                setValidRows([]);
+                setValidCols([]);
+            }
+        };
         
-        setData(gameData);
+    },[options, gameState]);
+    
+    useEffect( () => {
 
         if (data != null) {
             setRowSums(calculateRows(data));
@@ -60,40 +77,36 @@ export default function Gamegrid({ gameData, gameOptions }:GameProps) {
 
             console.log(data);
         };
-        
+
     },[data]);
 
-    // sets game options to a use state and updates when changed
-    useEffect( () => {
-
-        setOptions(gameOptions);
-
-    },[options]);
-    
     // compares input sums to generated sums
     useEffect( () => {
 
-        for (let x:number = 0; x < gameOptions.gameSize; x++) {
+        if (options != null) {
 
-            const rowLength = inputs[x] ? Object.values(inputs[x]).length : 0;
-            const colLength = Object.values(inputs).filter(row => x in row).length;
-            
-            if (rowLength == gameOptions.gameSize) {
-
-                let isValid = compareRow(x, rowSums, inputs[x], data!);
-
-                setValidRows(list => ({
-                    ...list, [x]: isValid
-                }));
-            };
-
-            if (colLength == gameOptions.gameSize) {
-
-                let isValid = compareCol(x, colSums, inputs, data!);
-
-                setValidCols(list => ({
-                    ...list, [x]: isValid
-                }));
+            for (let x:number = 0; x < options.gameSize; x++) {
+    
+                const rowLength = inputs[x] ? Object.values(inputs[x]).length : 0;
+                const colLength = Object.values(inputs).filter(row => x in row).length;
+                
+                if (rowLength == options.gameSize) {
+    
+                    let isValid = compareRow(x, rowSums, inputs[x], data!);
+    
+                    setValidRows(list => ({
+                        ...list, [x]: isValid
+                    }));
+                };
+    
+                if (colLength == options.gameSize) {
+    
+                    let isValid = compareCol(x, colSums, inputs, data!);
+    
+                    setValidCols(list => ({
+                        ...list, [x]: isValid
+                    }));
+                };
             };
         };
 
@@ -102,36 +115,39 @@ export default function Gamegrid({ gameData, gameOptions }:GameProps) {
     return (
         <div className="flex flex-col justify-center items-center m-20">
 
-            <GameMenu options={options!} setOptions={setOptions}/>
+            <GameMenu options={options!} setOptions={setOptions} setGameState={setGameState}/>
 
             <div className="flex flex-col size-fit gap-2 text-xl">
                 <div className="flex gap-2">
                     <div>
-                        {gameData.gameRows.map(
-                            (row:GameRows, r:number) =>
-                                <div key={r} className="flex gap-2">
-                                    {row.gameCols.map(
-                                        (col:GameCols, c:number) =>
-                                        <div key={c} className="grid grid-cols-2 gap-2 text-center">
-                                            <div className="size-10" />
-                                            <div className="size-10 content-center">
-                                                {r > 0 ? col.operatorRow : ""}
+                        {data != null ?
+                            data.gameRows.map(
+                                (row:GameRows, r:number) =>
+                                    <div key={r} className="flex gap-2">
+                                        {row.gameCols.map(
+                                            (col:GameCols, c:number) =>
+                                            <div key={c} className="grid grid-cols-2 gap-2 text-center">
+                                                <div className="size-10" />
+                                                <div className="size-10 content-center">
+                                                    {r > 0 ? col.operatorRow : ""}
+                                                </div>
+                                                <div className="size-10 content-center">
+                                                    {c > 0 ? col.operatorCol : ""}
+                                                </div>
+                                                <input 
+                                                    type="number" 
+                                                    min="1" 
+                                                    max="9"
+                                                    onKeyDown={onKeyDown}
+                                                    onChange={(e) => updateInputs(Number(e.target.value), r, c)}
+                                                    className="size-10 bg-amber-200 rounded-md text-center" 
+                                                />
                                             </div>
-                                            <div className="size-10 content-center">
-                                                {c > 0 ? col.operatorCol : ""}
-                                            </div>
-                                            <input 
-                                                type="number" 
-                                                min="1" 
-                                                max="9"
-                                                onKeyDown={onKeyDown}
-                                                onChange={(e) => updateInputs(Number(e.target.value), r, c)}
-                                                className="size-10 bg-amber-200 rounded-md text-center" 
-                                            />
-                                        </div>
-                                    )}
-                                </div>
-                            )
+                                        )}
+                                    </div>
+                                )                            
+                            :
+                            <></>
                         }
                     </div>
                     <div className="bottom-0 left-0 flex flex-col w-fit">

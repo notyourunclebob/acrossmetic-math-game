@@ -50,6 +50,12 @@ __turbopack_context__.n(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$c
 "use strict";
 
 __turbopack_context__.s([
+    "ALLOWED_OPERTORS",
+    ()=>ALLOWED_OPERTORS,
+    "INPUT_VALIDATE",
+    ()=>INPUT_VALIDATE,
+    "MAX_GAME_SIZE",
+    ()=>MAX_GAME_SIZE,
     "calculateCols",
     ()=>calculateCols,
     "calculateRows",
@@ -64,12 +70,19 @@ __turbopack_context__.s([
     ()=>executeOperation,
     "generateGame",
     ()=>generateGame,
-    "inputValidate",
-    ()=>inputValidate,
     "testGameData",
     ()=>testGameData
 ]);
-const inputValidate = new RegExp("[1-9]");
+const MAX_GAME_SIZE = 9;
+const ALLOWED_OPERTORS = [
+    {
+        operator: "+"
+    },
+    {
+        operator: "-"
+    }
+];
+const INPUT_VALIDATE = new RegExp("[1-9]");
 function executeOperation(opperator, x, y) {
     // selects approiate operation depending on selected operator
     switch(opperator){
@@ -192,7 +205,7 @@ function compareRow(row, rowSums, inputs, data) {
     // if number is not 1-9 returns false
     for(let x = 0; x < inputsLength; x++){
         let number = inputs[x];
-        if (inputValidate.test(number.toString())) {
+        if (INPUT_VALIDATE.test(number.toString())) {
             let operator = data.gameRows[row].gameCols[x].operatorCol;
             inputSum = executeOperation(operator, inputSum, number);
         } else {
@@ -215,7 +228,7 @@ function compareCol(col, colSums, inputs, data) {
     let inputsLength = Object.values(inputs).filter((row)=>col in row).length;
     for(let x = 0; x < inputsLength; x++){
         let number = inputs[x][col];
-        if (inputValidate.test(number.toString())) {
+        if (INPUT_VALIDATE.test(number.toString())) {
             let operator = data.gameRows[x].gameCols[col].operatorRow;
             inputSum = executeOperation(operator, inputSum, number);
         } else {

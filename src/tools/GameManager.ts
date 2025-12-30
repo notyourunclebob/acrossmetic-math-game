@@ -1,8 +1,16 @@
 
 import { GameCols, GameData, GameOperators, GameOptions, GameRows } from "./game.model";
 
+// game generation values
+// max game size is +1 to account for index 0 when looping
+export const MAX_GAME_SIZE = 9;
+export const ALLOWED_OPERTORS = [
+    {operator:"+"},
+    {operator:"-"}
+];
+
 // regex validation for inputs
-export const inputValidate = new RegExp("[1-9]");
+export const INPUT_VALIDATE = new RegExp("[1-9]");
 
 export function executeOperation(opperator:string, x:number, y:number) {
     
@@ -157,7 +165,7 @@ export function compareRow(row:number, rowSums:number[], inputs:Record<number, n
     for (let x:number = 0; x < inputsLength; x++) {
         let number:number = inputs[x];
 
-        if (inputValidate.test(number.toString())) {
+        if (INPUT_VALIDATE.test(number.toString())) {
             let operator:string = data.gameRows[row].gameCols[x].operatorCol;
     
             inputSum = executeOperation(operator, inputSum, number);
@@ -185,7 +193,7 @@ export function compareCol(col:number, colSums:number[], inputs:Record<number, R
 
         let number:number = inputs[x][col];
 
-        if (inputValidate.test(number.toString())) {
+        if (INPUT_VALIDATE.test(number.toString())) {
             let operator:string = data.gameRows[x].gameCols[col].operatorRow;
 
             inputSum = executeOperation(operator, inputSum, number);
