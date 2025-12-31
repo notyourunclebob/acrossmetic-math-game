@@ -154,7 +154,7 @@ export function calculateCols(gameData:GameData) {
     return colSums;
 };
 
-export function compareRow(row:number, rowSums:number[], inputs:Record<number, number>, data:GameData) {
+export function compareRow(row:number, rowSums:number[], inputs:Record<number, number | undefined>, data:GameData) {
 
     let inputSum:number = 0;
 
@@ -163,14 +163,18 @@ export function compareRow(row:number, rowSums:number[], inputs:Record<number, n
     // loops through inputs by row to get the sum
     // if number is not 1-9 returns false
     for (let x:number = 0; x < inputsLength; x++) {
-        let number:number = inputs[x];
+        
+        if (inputs[x] != null) {
 
-        if (INPUT_VALIDATE.test(number.toString())) {
-            let operator:string = data.gameRows[row].gameCols[x].operatorCol;
+            let number:number = inputs[x]!;
     
-            inputSum = executeOperation(operator, inputSum, number);
-        } else {
-            return false;
+            if (INPUT_VALIDATE.test(number.toString())) {
+                let operator:string = data.gameRows[row].gameCols[x].operatorCol;
+        
+                inputSum = executeOperation(operator, inputSum, number);
+            } else {
+                return false;
+            };
         };
     };
 
@@ -183,7 +187,7 @@ export function compareRow(row:number, rowSums:number[], inputs:Record<number, n
 
 };
 
-export function compareCol(col:number, colSums:number[], inputs:Record<number, Record<number, number>>, data:GameData) {
+export function compareCol(col:number, colSums:number[], inputs:Record<number, Record<number, number | undefined>>, data:GameData) {
     
     let inputSum:number = 0;
 
@@ -191,14 +195,17 @@ export function compareCol(col:number, colSums:number[], inputs:Record<number, R
 
     for (let x:number = 0; x < inputsLength; x++) {
 
-        let number:number = inputs[x][col];
+        if (inputs[x][col] != null) {
 
-        if (INPUT_VALIDATE.test(number.toString())) {
-            let operator:string = data.gameRows[x].gameCols[col].operatorRow;
-
-            inputSum = executeOperation(operator, inputSum, number);
-        } else {
-            return false;
+            let number:number = inputs[x][col]!;
+    
+            if (INPUT_VALIDATE.test(number.toString())) {
+                let operator:string = data.gameRows[x].gameCols[col].operatorRow;
+    
+                inputSum = executeOperation(operator, inputSum, number);
+            } else {
+                return false;
+            };
         };
     };
 

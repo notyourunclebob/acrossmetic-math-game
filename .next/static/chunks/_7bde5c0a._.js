@@ -158,12 +158,15 @@ function compareRow(row, rowSums, inputs, data) {
     // loops through inputs by row to get the sum
     // if number is not 1-9 returns false
     for(let x = 0; x < inputsLength; x++){
-        let number = inputs[x];
-        if (INPUT_VALIDATE.test(number.toString())) {
-            let operator = data.gameRows[row].gameCols[x].operatorCol;
-            inputSum = executeOperation(operator, inputSum, number);
-        } else {
-            return false;
+        if (inputs[x] != null) {
+            let number = inputs[x];
+            if (INPUT_VALIDATE.test(number.toString())) {
+                let operator = data.gameRows[row].gameCols[x].operatorCol;
+                inputSum = executeOperation(operator, inputSum, number);
+            } else {
+                return false;
+            }
+            ;
         }
         ;
     }
@@ -181,12 +184,15 @@ function compareCol(col, colSums, inputs, data) {
     let inputSum = 0;
     let inputsLength = Object.values(inputs).filter((row)=>col in row).length;
     for(let x = 0; x < inputsLength; x++){
-        let number = inputs[x][col];
-        if (INPUT_VALIDATE.test(number.toString())) {
-            let operator = data.gameRows[x].gameCols[col].operatorRow;
-            inputSum = executeOperation(operator, inputSum, number);
-        } else {
-            return false;
+        if (inputs[x][col] != null) {
+            let number = inputs[x][col];
+            if (INPUT_VALIDATE.test(number.toString())) {
+                let operator = data.gameRows[x].gameCols[col].operatorRow;
+                inputSum = executeOperation(operator, inputSum, number);
+            } else {
+                return false;
+            }
+            ;
         }
         ;
     }
@@ -549,7 +555,10 @@ function Gamegrid(param) {
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 children: data != null ? data.gameRows.map((row, r)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         className: "flex gap-2",
-                                        children: row.gameCols.map((col, c)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        children: row.gameCols.map((col, c)=>{
+                                            var _inputs_r;
+                                            var _inputs_r_c;
+                                            return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                 className: "grid grid-cols-2 gap-2 text-center",
                                                 children: [
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -579,6 +588,7 @@ function Gamegrid(param) {
                                                         type: "number",
                                                         min: "1",
                                                         max: "9",
+                                                        value: (_inputs_r_c = (_inputs_r = inputs[r]) === null || _inputs_r === void 0 ? void 0 : _inputs_r[c]) !== null && _inputs_r_c !== void 0 ? _inputs_r_c : "",
                                                         onKeyDown: (e)=>onKeyDown(e, r, c),
                                                         onChange: (e)=>updateInputs(e, r, c),
                                                         className: "size-10 bg-amber-200 rounded-md text-center"
@@ -592,7 +602,8 @@ function Gamegrid(param) {
                                                 fileName: "[project]/src/components/Gamegrid.tsx",
                                                 lineNumber: 123,
                                                 columnNumber: 45
-                                            }, this))
+                                            }, this);
+                                        })
                                     }, r, false, {
                                         fileName: "[project]/src/components/Gamegrid.tsx",
                                         lineNumber: 120,
@@ -612,7 +623,7 @@ function Gamegrid(param) {
                                                 className: "size-10 col-span-2"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/Gamegrid.tsx",
-                                                lineNumber: 151,
+                                                lineNumber: 152,
                                                 columnNumber: 37
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -620,7 +631,7 @@ function Gamegrid(param) {
                                                 children: "="
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/Gamegrid.tsx",
-                                                lineNumber: 152,
+                                                lineNumber: 153,
                                                 columnNumber: 37
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -628,18 +639,18 @@ function Gamegrid(param) {
                                                 children: sum
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/Gamegrid.tsx",
-                                                lineNumber: 155,
+                                                lineNumber: 156,
                                                 columnNumber: 37
                                             }, this)
                                         ]
                                     }, s, true, {
                                         fileName: "[project]/src/components/Gamegrid.tsx",
-                                        lineNumber: 150,
+                                        lineNumber: 151,
                                         columnNumber: 33
                                     }, this))
                             }, void 0, false, {
                                 fileName: "[project]/src/components/Gamegrid.tsx",
-                                lineNumber: 147,
+                                lineNumber: 148,
                                 columnNumber: 21
                             }, this)
                         ]
@@ -657,7 +668,7 @@ function Gamegrid(param) {
                                         className: "size-10 row-span-2"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/Gamegrid.tsx",
-                                        lineNumber: 167,
+                                        lineNumber: 168,
                                         columnNumber: 33
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -665,7 +676,7 @@ function Gamegrid(param) {
                                         children: "="
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/Gamegrid.tsx",
-                                        lineNumber: 168,
+                                        lineNumber: 169,
                                         columnNumber: 33
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -673,18 +684,18 @@ function Gamegrid(param) {
                                         children: sum
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/Gamegrid.tsx",
-                                        lineNumber: 171,
+                                        lineNumber: 172,
                                         columnNumber: 33
                                     }, this)
                                 ]
                             }, s, true, {
                                 fileName: "[project]/src/components/Gamegrid.tsx",
-                                lineNumber: 166,
+                                lineNumber: 167,
                                 columnNumber: 29
                             }, this))
                     }, void 0, false, {
                         fileName: "[project]/src/components/Gamegrid.tsx",
-                        lineNumber: 163,
+                        lineNumber: 164,
                         columnNumber: 17
                     }, this)
                 ]

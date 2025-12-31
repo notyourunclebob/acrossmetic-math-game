@@ -205,12 +205,15 @@ function compareRow(row, rowSums, inputs, data) {
     // loops through inputs by row to get the sum
     // if number is not 1-9 returns false
     for(let x = 0; x < inputsLength; x++){
-        let number = inputs[x];
-        if (INPUT_VALIDATE.test(number.toString())) {
-            let operator = data.gameRows[row].gameCols[x].operatorCol;
-            inputSum = executeOperation(operator, inputSum, number);
-        } else {
-            return false;
+        if (inputs[x] != null) {
+            let number = inputs[x];
+            if (INPUT_VALIDATE.test(number.toString())) {
+                let operator = data.gameRows[row].gameCols[x].operatorCol;
+                inputSum = executeOperation(operator, inputSum, number);
+            } else {
+                return false;
+            }
+            ;
         }
         ;
     }
@@ -228,12 +231,15 @@ function compareCol(col, colSums, inputs, data) {
     let inputSum = 0;
     let inputsLength = Object.values(inputs).filter((row)=>col in row).length;
     for(let x = 0; x < inputsLength; x++){
-        let number = inputs[x][col];
-        if (INPUT_VALIDATE.test(number.toString())) {
-            let operator = data.gameRows[x].gameCols[col].operatorRow;
-            inputSum = executeOperation(operator, inputSum, number);
-        } else {
-            return false;
+        if (inputs[x][col] != null) {
+            let number = inputs[x][col];
+            if (INPUT_VALIDATE.test(number.toString())) {
+                let operator = data.gameRows[x].gameCols[col].operatorRow;
+                inputSum = executeOperation(operator, inputSum, number);
+            } else {
+                return false;
+            }
+            ;
         }
         ;
     }

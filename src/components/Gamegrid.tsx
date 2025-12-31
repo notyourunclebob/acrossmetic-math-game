@@ -25,7 +25,7 @@ export default function Gamegrid({ gameData, gameOptions }:GameProps) {
         if ([8, 46, 9 ,27, 13, 37, 38, 39, 40].includes(e.keyCode)) return;
         
         e.preventDefault();
-        
+
         if (e.key >= "1" && e.key <= "9") {
             e.target.value = e.key;
             updateInputs(e, row, col);
@@ -39,7 +39,7 @@ export default function Gamegrid({ gameData, gameOptions }:GameProps) {
     const [options, setOptions] = useState<GameOptions>();
 
     // holds a list of user inputs
-    const [inputs, setInputs] = useState<Record<number, Record<number, number>>>({});
+    const [inputs, setInputs] = useState<Record<number, Record<number, number | undefined>>>({});
     const [validRows, setValidRows] = useState<Record<number, boolean>>({});
     const [validCols, setValidCols] = useState<Record<number, boolean>>({});
 
@@ -132,6 +132,7 @@ export default function Gamegrid({ gameData, gameOptions }:GameProps) {
                                                     type="number" 
                                                     min="1" 
                                                     max="9"
+                                                    value={inputs[r]?.[c] ?? ""}
                                                     onKeyDown={(e) => onKeyDown(e, r, c)}
                                                     onChange={(e) => updateInputs(e, r, c)}
                                                     className="size-10 bg-amber-200 rounded-md text-center" 
