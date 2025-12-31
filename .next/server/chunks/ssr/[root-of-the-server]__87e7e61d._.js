@@ -103,7 +103,7 @@ function executeOperation(opperator, x, y) {
 function defaultGameOptions() {
     // sets game options to default values
     let gameOptions = {
-        gameSize: 3,
+        gameSize: 2,
         gameOperators: [
             {
                 operator: "+"
@@ -199,14 +199,13 @@ function calculateCols(gameData) {
     ;
     return colSums;
 }
-function compareRow(row, rowSums, inputs, data) {
+function compareRow(row, rowSums, rowLength, inputs, data) {
     let inputSum = 0;
-    let inputsLength = Object.values(inputs).length;
     // loops through inputs by row to get the sum
     // if number is not 1-9 returns false
-    for(let x = 0; x < inputsLength; x++){
-        if (inputs[x] != null) {
-            let number = inputs[x];
+    for(let x = 0; x < rowLength; x++){
+        if (inputs[row][x] != null) {
+            let number = inputs[row][x];
             if (INPUT_VALIDATE.test(number.toString())) {
                 let operator = data.gameRows[row].gameCols[x].operatorCol;
                 inputSum = executeOperation(operator, inputSum, number);
@@ -219,7 +218,7 @@ function compareRow(row, rowSums, inputs, data) {
     }
     ;
     // checks if the input row sum matches the generated row sum and if the length matches the generated row
-    if (inputSum == rowSums[row] && inputsLength == data.gameRows[row].gameCols.length) {
+    if (inputSum == rowSums[row] && rowLength == data.gameRows[row].gameCols.length) {
         return true;
     } else {
         return false;
@@ -227,10 +226,9 @@ function compareRow(row, rowSums, inputs, data) {
     //TURBOPACK unreachable
     ;
 }
-function compareCol(col, colSums, inputs, data) {
+function compareCol(col, colSums, colLength, inputs, data) {
     let inputSum = 0;
-    let inputsLength = Object.values(inputs).filter((row)=>col in row).length;
-    for(let x = 0; x < inputsLength; x++){
+    for(let x = 0; x < colLength; x++){
         if (inputs[x][col] != null) {
             let number = inputs[x][col];
             if (INPUT_VALIDATE.test(number.toString())) {
@@ -244,7 +242,7 @@ function compareCol(col, colSums, inputs, data) {
         ;
     }
     ;
-    if (inputSum == colSums[col] && inputsLength == data.gameRows.length) {
+    if (inputSum == colSums[col] && colLength == data.gameRows.length) {
         return true;
     } else {
         return false;

@@ -33,7 +33,7 @@ export function defaultGameOptions() {
     
     // sets game options to default values
     let gameOptions:GameOptions = {
-        gameSize: 3,
+        gameSize: 2,
         gameOperators: [
             {operator: "+"},
             {operator: "-"},
@@ -154,19 +154,17 @@ export function calculateCols(gameData:GameData) {
     return colSums;
 };
 
-export function compareRow(row:number, rowSums:number[], inputs:Record<number, number | undefined>, data:GameData) {
+export function compareRow(row:number, rowSums:number[], rowLength:number, inputs:Record<number, Record<number, number | undefined>>, data:GameData) {
 
     let inputSum:number = 0;
-
-    let inputsLength = Object.values(inputs).length;
     
     // loops through inputs by row to get the sum
     // if number is not 1-9 returns false
-    for (let x:number = 0; x < inputsLength; x++) {
+    for (let x:number = 0; x < rowLength; x++) {
         
-        if (inputs[x] != null) {
+        if (inputs[row][x] != null) {
 
-            let number:number = inputs[x]!;
+            let number:number = inputs[row][x]!;
     
             if (INPUT_VALIDATE.test(number.toString())) {
                 let operator:string = data.gameRows[row].gameCols[x].operatorCol;
@@ -179,7 +177,7 @@ export function compareRow(row:number, rowSums:number[], inputs:Record<number, n
     };
 
     // checks if the input row sum matches the generated row sum and if the length matches the generated row
-    if (inputSum == rowSums[row] && inputsLength == data.gameRows[row].gameCols.length) {
+    if (inputSum == rowSums[row] && rowLength == data.gameRows[row].gameCols.length) {
         return true;
     } else {
         return false;
@@ -187,13 +185,11 @@ export function compareRow(row:number, rowSums:number[], inputs:Record<number, n
 
 };
 
-export function compareCol(col:number, colSums:number[], inputs:Record<number, Record<number, number | undefined>>, data:GameData) {
+export function compareCol(col:number, colSums:number[], colLength:number,  inputs:Record<number, Record<number, number | undefined>>, data:GameData) {
     
     let inputSum:number = 0;
 
-    let inputsLength = Object.values(inputs).filter( row => col in row).length;
-
-    for (let x:number = 0; x < inputsLength; x++) {
+    for (let x:number = 0; x < colLength; x++) {
 
         if (inputs[x][col] != null) {
 
@@ -209,7 +205,7 @@ export function compareCol(col:number, colSums:number[], inputs:Record<number, R
         };
     };
 
-    if (inputSum == colSums[col] && inputsLength == data.gameRows.length) {
+    if (inputSum == colSums[col] && colLength == data.gameRows.length) {
         return true;
     } else {
         return false;

@@ -40,8 +40,8 @@ export default function Gamegrid({ gameData, gameOptions }:GameProps) {
 
     // holds a list of user inputs
     const [inputs, setInputs] = useState<Record<number, Record<number, number | undefined>>>({});
-    const [validRows, setValidRows] = useState<Record<number, boolean>>({});
-    const [validCols, setValidCols] = useState<Record<number, boolean>>({});
+    const [validRows, setValidRows] = useState<Record<number, boolean | undefined>>({});
+    const [validCols, setValidCols] = useState<Record<number, boolean | undefined>>({});
 
     const [gameState, setGameState] = useState<number>(0);
 
@@ -54,10 +54,13 @@ export default function Gamegrid({ gameData, gameOptions }:GameProps) {
 
         } else if (gameState == 1) {
             if (options != null) {
-                setData(generateGame(options));
                 setInputs([]);
                 setValidRows([]);
                 setValidCols([]);
+                setRowSums([]);
+                setColSums([]);
+                setData(generateGame(options));
+                setGameState(2);
             }
         };
         
@@ -77,7 +80,7 @@ export default function Gamegrid({ gameData, gameOptions }:GameProps) {
     // compares input sums to generated sums
     useEffect( () => {
 
-        if (options != null) {
+        if (options != null && data != null) {
 
             for (let x:number = 0; x < options.gameSize; x++) {
     
@@ -86,7 +89,7 @@ export default function Gamegrid({ gameData, gameOptions }:GameProps) {
                 
                 if (rowLength == options.gameSize) {
     
-                    let isValid = compareRow(x, rowSums, inputs[x], data!);
+                    let isValid:boolean = compareRow(x, rowSums, rowLength, inputs, data!);
     
                     setValidRows(list => ({
                         ...list, [x]: isValid
@@ -95,7 +98,7 @@ export default function Gamegrid({ gameData, gameOptions }:GameProps) {
     
                 if (colLength == options.gameSize) {
     
-                    let isValid = compareCol(x, colSums, inputs, data!);
+                    let isValid:boolean = compareCol(x, colSums, colLength, inputs, data!);
     
                     setValidCols(list => ({
                         ...list, [x]: isValid
