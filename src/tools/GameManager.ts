@@ -14,7 +14,7 @@ export const INPUT_VALIDATE = new RegExp("[1-9]");
 
 export function executeOperation(opperator:string, x:number, y:number) {
     
-    // selects approiate operation depending on selected operator
+    // selects approiate operation depending on operator
     switch (opperator) {
 
         case "+": return x + y;

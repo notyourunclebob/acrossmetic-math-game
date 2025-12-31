@@ -10,31 +10,25 @@ export default function Gamegrid({ gameData, gameOptions }:GameProps) {
     // ---------------------------------------------------- functions
 
     // updates the input list with imputs maintaining their respective row and col index
-    const updateInputs = (value:number, row:number, col:number) => {
+    const updateInputs = (e:any, row:number, col:number) => {
 
         setInputs(grid => ({
             ...grid, [row]: {
-                ...(grid[row] || {}), [col]: value
+                ...(grid[row] || {}), [col]: e.target.value
             }
         }));
     };
 
-    // note to self - concider looking into using key presses to change a value rather then using inputs
-
-    // prevents invalid inputs by disabling key inputs
-    const onKeyDown = (e:any) => {
+    // prevents invalid inputs by disabling key inputs and sets value to key pressed instead of normal input behaviour
+    const onKeyDown = (e:any, row:number, col:number) => {
         // allows backspace, del, tab, esc, enter and arrow keys
         if ([8, 46, 9 ,27, 13, 37, 38, 39, 40].includes(e.keyCode)) return;
-
-        // restricts keys to 1-9
-        if (e.key < "1" || e.key > "9") {
-            e.preventDefault();
-        };
-
-        // restricts inputs to one character
-        if (e.target.value >= 1) {
-            e.preventDefault();
-            return;
+        
+        e.preventDefault();
+        
+        if (e.key >= "1" && e.key <= "9") {
+            e.target.value = e.key;
+            updateInputs(e, row, col);
         };
     };
     
@@ -138,8 +132,8 @@ export default function Gamegrid({ gameData, gameOptions }:GameProps) {
                                                     type="number" 
                                                     min="1" 
                                                     max="9"
-                                                    onKeyDown={onKeyDown}
-                                                    onChange={(e) => updateInputs(Number(e.target.value), r, c)}
+                                                    onKeyDown={(e) => onKeyDown(e, r, c)}
+                                                    onChange={(e) => updateInputs(e, r, c)}
                                                     className="size-10 bg-amber-200 rounded-md text-center" 
                                                 />
                                             </div>

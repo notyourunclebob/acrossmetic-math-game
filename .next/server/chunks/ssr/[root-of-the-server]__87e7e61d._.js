@@ -85,7 +85,7 @@ const ALLOWED_OPERTORS = [
 ];
 const INPUT_VALIDATE = new RegExp("[1-9]");
 function executeOperation(opperator, x, y) {
-    // selects approiate operation depending on selected operator
+    // selects approiate operation depending on operator
     switch(opperator){
         case "+":
             return x + y;

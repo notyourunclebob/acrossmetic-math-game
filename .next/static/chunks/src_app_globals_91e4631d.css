@@ -1004,12 +1004,6 @@
   }
 
   @media (hover: hover) {
-    .hover\:bg-amber-300:hover {
-      background-color: var(--color-amber-300);
-    }
-  }
-
-  @media (hover: hover) {
     .hover\:bg-amber-400:hover {
       background-color: var(--color-amber-400);
     }
