@@ -407,7 +407,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$GameMen
 ;
 ;
 function Gamegrid({ gameData, gameOptions }) {
-    // ---------------------------------------------------- functions
+    // ---------------------------------------------------- action events
     // updates the input list with imputs maintaining their respective row and col index
     const updateInputs = (e, row, col)=>{
         const value = Number(e.target.value);
@@ -437,7 +437,6 @@ function Gamegrid({ gameData, gameOptions }) {
         if (e.key >= "1" && e.key <= "9") {
             e.target.value = e.key;
             updateInputs(e, row, col);
-            console.log(e.target.value);
         }
         ;
     };
@@ -450,12 +449,18 @@ function Gamegrid({ gameData, gameOptions }) {
     const [inputs, setInputs] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])({});
     const [validRows, setValidRows] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])({});
     const [validCols, setValidCols] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])({});
+    // gameStates:
+    // 0 - inital render
+    // 1 - generate new game
+    // 2 - game in play
+    // 3 - game victory
     const [gameState, setGameState] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(0);
     // sets game data to a useState and updates data when changed
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
         if (gameState == 0) {
             setOptions(gameOptions);
             setData(gameData);
+            setGameState(2);
         } else if (gameState == 1) {
             if (options != null) {
                 setInputs([]);
@@ -512,6 +517,20 @@ function Gamegrid({ gameData, gameOptions }) {
     }, [
         inputs
     ]);
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
+        const gameSize = gameOptions.gameSize;
+        const rowsLength = Object.keys(validRows).length;
+        const colsLength = Object.keys(validCols).length;
+        const allRows = Object.values(validRows).every(Boolean);
+        const allCols = Object.values(validCols).every(Boolean);
+        if (rowsLength == gameSize && colsLength == gameSize && allRows == true && allCols == true) {
+            setGameState(3);
+        }
+        ;
+    }, [
+        validRows,
+        validCols
+    ]);
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         className: "flex flex-col justify-center items-center m-20",
         children: [
@@ -521,7 +540,7 @@ function Gamegrid({ gameData, gameOptions }) {
                 setGameState: setGameState
             }, void 0, false, {
                 fileName: "[project]/src/components/Gamegrid.tsx",
-                lineNumber: 120,
+                lineNumber: 139,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -540,7 +559,7 @@ function Gamegrid({ gameData, gameOptions }) {
                                                         className: "size-10"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/Gamegrid.tsx",
-                                                        lineNumber: 132,
+                                                        lineNumber: 151,
                                                         columnNumber: 49
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -548,7 +567,7 @@ function Gamegrid({ gameData, gameOptions }) {
                                                         children: r > 0 ? col.operatorRow : ""
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/Gamegrid.tsx",
-                                                        lineNumber: 133,
+                                                        lineNumber: 152,
                                                         columnNumber: 49
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -556,7 +575,7 @@ function Gamegrid({ gameData, gameOptions }) {
                                                         children: c > 0 ? col.operatorCol : ""
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/Gamegrid.tsx",
-                                                        lineNumber: 136,
+                                                        lineNumber: 155,
                                                         columnNumber: 49
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -566,26 +585,29 @@ function Gamegrid({ gameData, gameOptions }) {
                                                         value: inputs[r]?.[c] ?? "",
                                                         onKeyDown: (e)=>onKeyDown(e, r, c),
                                                         onChange: (e)=>updateInputs(e, r, c),
-                                                        className: "size-10 bg-amber-200 rounded-md text-center"
+                                                        disabled: gameState == 3,
+                                                        className: `size-10 rounded-md text-center ${gameState == 3 ? "bg-gray-300" : "bg-amber-200 "}`
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/Gamegrid.tsx",
-                                                        lineNumber: 139,
+                                                        lineNumber: 158,
                                                         columnNumber: 49
                                                     }, this)
                                                 ]
                                             }, c, true, {
                                                 fileName: "[project]/src/components/Gamegrid.tsx",
-                                                lineNumber: 131,
+                                                lineNumber: 150,
                                                 columnNumber: 45
                                             }, this))
                                     }, r, false, {
                                         fileName: "[project]/src/components/Gamegrid.tsx",
-                                        lineNumber: 128,
+                                        lineNumber: 147,
                                         columnNumber: 37
-                                    }, this)) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Fragment"], {}, void 0, false)
+                                    }, this)) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Fragment"], {
+                                    children: "X"
+                                }, void 0, false)
                             }, void 0, false, {
                                 fileName: "[project]/src/components/Gamegrid.tsx",
-                                lineNumber: 124,
+                                lineNumber: 143,
                                 columnNumber: 21
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -597,7 +619,7 @@ function Gamegrid({ gameData, gameOptions }) {
                                                 className: "size-10 col-span-2"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/Gamegrid.tsx",
-                                                lineNumber: 160,
+                                                lineNumber: 182,
                                                 columnNumber: 37
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -605,7 +627,7 @@ function Gamegrid({ gameData, gameOptions }) {
                                                 children: "="
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/Gamegrid.tsx",
-                                                lineNumber: 161,
+                                                lineNumber: 183,
                                                 columnNumber: 37
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -613,24 +635,24 @@ function Gamegrid({ gameData, gameOptions }) {
                                                 children: sum
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/Gamegrid.tsx",
-                                                lineNumber: 164,
+                                                lineNumber: 186,
                                                 columnNumber: 37
                                             }, this)
                                         ]
                                     }, s, true, {
                                         fileName: "[project]/src/components/Gamegrid.tsx",
-                                        lineNumber: 159,
+                                        lineNumber: 181,
                                         columnNumber: 33
                                     }, this))
                             }, void 0, false, {
                                 fileName: "[project]/src/components/Gamegrid.tsx",
-                                lineNumber: 156,
+                                lineNumber: 178,
                                 columnNumber: 21
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/Gamegrid.tsx",
-                        lineNumber: 123,
+                        lineNumber: 142,
                         columnNumber: 17
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -642,7 +664,7 @@ function Gamegrid({ gameData, gameOptions }) {
                                         className: "size-10 row-span-2"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/Gamegrid.tsx",
-                                        lineNumber: 176,
+                                        lineNumber: 198,
                                         columnNumber: 33
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -650,7 +672,7 @@ function Gamegrid({ gameData, gameOptions }) {
                                         children: "="
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/Gamegrid.tsx",
-                                        lineNumber: 177,
+                                        lineNumber: 199,
                                         columnNumber: 33
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -658,30 +680,38 @@ function Gamegrid({ gameData, gameOptions }) {
                                         children: sum
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/Gamegrid.tsx",
-                                        lineNumber: 180,
+                                        lineNumber: 202,
                                         columnNumber: 33
                                     }, this)
                                 ]
                             }, s, true, {
                                 fileName: "[project]/src/components/Gamegrid.tsx",
-                                lineNumber: 175,
+                                lineNumber: 197,
                                 columnNumber: 29
                             }, this))
                     }, void 0, false, {
                         fileName: "[project]/src/components/Gamegrid.tsx",
-                        lineNumber: 172,
+                        lineNumber: 194,
+                        columnNumber: 17
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "text-green-700",
+                        children: gameState == 3 ? "You Win!!!" : ""
+                    }, void 0, false, {
+                        fileName: "[project]/src/components/Gamegrid.tsx",
+                        lineNumber: 209,
                         columnNumber: 17
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/Gamegrid.tsx",
-                lineNumber: 122,
+                lineNumber: 141,
                 columnNumber: 13
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/Gamegrid.tsx",
-        lineNumber: 118,
+        lineNumber: 137,
         columnNumber: 9
     }, this);
 }

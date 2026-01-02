@@ -7,7 +7,7 @@ import GameMenu from "./GameMenu";
 
 export default function Gamegrid({ gameData, gameOptions }:GameProps) {
 
-    // ---------------------------------------------------- functions
+    // ---------------------------------------------------- action events
 
     // updates the input list with imputs maintaining their respective row and col index
     const updateInputs = (e:any, row:number, col:number) => {
@@ -31,7 +31,6 @@ export default function Gamegrid({ gameData, gameOptions }:GameProps) {
         if (e.key >= "1" && e.key <= "9") {
             e.target.value = e.key;
             updateInputs(e, row, col);
-            console.log(e.target.value);
         };
     };
     
@@ -46,6 +45,11 @@ export default function Gamegrid({ gameData, gameOptions }:GameProps) {
     const [validRows, setValidRows] = useState<Record<number, boolean>>({});
     const [validCols, setValidCols] = useState<Record<number, boolean>>({});
 
+    // gameStates:
+    // 0 - inital render
+    // 1 - generate new game
+    // 2 - game in play
+    // 3 - game victory
     const [gameState, setGameState] = useState<number>(0);
 
     // sets game data to a useState and updates data when changed
@@ -54,6 +58,7 @@ export default function Gamegrid({ gameData, gameOptions }:GameProps) {
         if (gameState == 0) {
             setOptions(gameOptions);
             setData(gameData);
+            setGameState(2);
 
         } else if (gameState == 1) {
             if (options != null) {
@@ -114,6 +119,20 @@ export default function Gamegrid({ gameData, gameOptions }:GameProps) {
 
     },[inputs]);
 
+    useEffect( () => {
+
+        const gameSize:number = gameOptions.gameSize;
+        const rowsLength:number = Object.keys(validRows).length; 
+        const colsLength:number = Object.keys(validCols).length;
+        const allRows:boolean = Object.values(validRows).every(Boolean);
+        const allCols:boolean = Object.values(validCols).every(Boolean);
+
+        if (rowsLength == gameSize && colsLength == gameSize && allRows == true && allCols == true) {
+            setGameState(3);
+        };
+        
+    },[validRows, validCols]);
+
     return (
         <div className="flex flex-col justify-center items-center m-20">
 
@@ -143,14 +162,17 @@ export default function Gamegrid({ gameData, gameOptions }:GameProps) {
                                                     value={inputs[r]?.[c] ?? ""}
                                                     onKeyDown={(e) => onKeyDown(e, r, c)}
                                                     onChange={(e) => updateInputs(e, r, c)}
-                                                    className="size-10 bg-amber-200 rounded-md text-center" 
+                                                    disabled={gameState == 3}
+                                                    className={`size-10 rounded-md text-center ${
+                                                        gameState == 3 ? "bg-gray-300" : "bg-amber-200 "
+                                                    }`} 
                                                 />
                                             </div>
                                         )}
                                     </div>
                                 )                            
                             :
-                            <></>
+                            <>X</>
                         }
                     </div>
                     <div className="bottom-0 left-0 flex flex-col w-fit">
@@ -183,6 +205,9 @@ export default function Gamegrid({ gameData, gameOptions }:GameProps) {
                             </div>
                         )
                     }
+                </div>
+                <div className="text-green-700">
+                    {gameState == 3 ? "You Win!!!" : ""}
                 </div>
             </div>
 
