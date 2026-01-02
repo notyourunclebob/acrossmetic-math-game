@@ -12,9 +12,11 @@ export default function Gamegrid({ gameData, gameOptions }:GameProps) {
     // updates the input list with imputs maintaining their respective row and col index
     const updateInputs = (e:any, row:number, col:number) => {
 
+        const value:number = Number(e.target.value);
+
         setInputs(grid => ({
             ...grid, [row]: {
-                ...(grid[row] || {}), [col]: e.target.value
+                ...(grid[row] || {}), [col]: value
             }
         }));
     };
