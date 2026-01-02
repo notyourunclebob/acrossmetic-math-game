@@ -121,13 +121,13 @@ export default function Gamegrid({ gameData, gameOptions }:GameProps) {
 
     useEffect( () => {
 
-        const gameSize:number = gameOptions.gameSize;
-        const rowsLength:number = Object.keys(validRows).length; 
-        const colsLength:number = Object.keys(validCols).length;
-        const allRows:boolean = Object.values(validRows).every(Boolean);
-        const allCols:boolean = Object.values(validCols).every(Boolean);
-
-        if (rowsLength == gameSize && colsLength == gameSize && allRows == true && allCols == true) {
+        if (
+            options != null &&
+            Object.keys(validRows).length == options.gameSize &&
+            Object.keys(validCols).length == options.gameSize &&
+            Object.values(validRows).every(Boolean) &&
+            Object.values(validCols).every(Boolean)
+        ) {
             setGameState(3);
         };
         
