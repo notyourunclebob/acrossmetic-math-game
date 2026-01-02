@@ -139,51 +139,69 @@ export default function Gamegrid({ gameData, gameOptions }:GameProps) {
             <GameMenu options={options!} setOptions={setOptions} setGameState={setGameState}/>
 
             <div className="flex flex-col size-fit gap-2 text-xl">
-                <div className="flex gap-2">
-                    <div>
-                        {data != null ?
-                            data.gameRows.map(
-                                (row:GameRows, r:number) =>
-                                    <div key={r} className="flex gap-2">
-                                        {row.gameCols.map(
-                                            (col:GameCols, c:number) =>
-                                            <div key={c} className="grid grid-cols-2 gap-2 text-center">
-                                                <div className="size-10" />
-                                                <div className="size-10 content-center">
-                                                    {r > 0 ? col.operatorRow : ""}
+                <div>
+                    {gameState <= 2 && data != null ?
+                        <div className="flex gap-2">
+                            <div>
+                                {data.gameRows.map(
+                                    (row:GameRows, r:number) =>
+                                        <div key={r} className="flex gap-2">
+                                            {row.gameCols.map(
+                                                (col:GameCols, c:number) =>
+                                                <div key={c} className="grid grid-cols-2 gap-2 font-bold text-center">
+                                                    <div className="size-12" />
+                                                    <div className="size-12 text-2xl content-center">
+                                                        {r > 0 ? col.operatorRow : ""}
+                                                    </div>
+                                                    <div className="size-12 text-2xl content-center">
+                                                        {c > 0 ? col.operatorCol : ""}
+                                                    </div>
+                                                    <input 
+                                                        type="number" 
+                                                        min="1" 
+                                                        max="9"
+                                                        value={inputs[r]?.[c] ?? ""}
+                                                        onKeyDown={(e) => onKeyDown(e, r, c)}
+                                                        onChange={(e) => updateInputs(e, r, c)}
+                                                        disabled={gameState == 3}
+                                                        className={`size-12 rounded-md text-center ${
+                                                            gameState == 3 ? "bg-gray-300" : "bg-amber-200 "
+                                                        }`} 
+                                                    />
                                                 </div>
-                                                <div className="size-10 content-center">
-                                                    {c > 0 ? col.operatorCol : ""}
-                                                </div>
-                                                <input 
-                                                    type="number" 
-                                                    min="1" 
-                                                    max="9"
-                                                    value={inputs[r]?.[c] ?? ""}
-                                                    onKeyDown={(e) => onKeyDown(e, r, c)}
-                                                    onChange={(e) => updateInputs(e, r, c)}
-                                                    disabled={gameState == 3}
-                                                    className={`size-10 rounded-md text-center ${
-                                                        gameState == 3 ? "bg-gray-300" : "bg-amber-200 "
-                                                    }`} 
-                                                />
+                                            )}
+                                        </div>
+                                    )
+                                }                            
+                            </div>
+                            <div className="bottom-0 left-0 flex flex-col w-fit">
+                                {rowSums.map(
+                                    (sum:number, s:number) =>
+                                        <div key={s} className="grid grid-cols-2 gap-2 font-bold text-center">
+                                            <div className="size-12 col-span-2"/>
+                                            <div className="size-12 text-2xl content-center">
+                                                =
                                             </div>
-                                        )}
-                                    </div>
-                                )                            
-                            :
-                            <>X</>
-                        }
-                    </div>
-                    <div className="bottom-0 left-0 flex flex-col w-fit">
-                        {rowSums.map(
+                                            <div className={`size-12 content-center rounded-md text-white ${validRows[s] ? "bg-green-500" : "bg-gray-500"}`}>
+                                                {sum}
+                                            </div>
+                                        </div>
+                                    )
+                                }
+                            </div>
+                        </div>
+                        :
+                        <>Spinner goes here</>
+                    }
+                    <div className="flex w-fit gap-2">
+                        {colSums.map(
                             (sum:number, s:number) =>
-                                <div key={s} className="grid grid-cols-2 gap-2 text-center">
-                                    <div className="size-10 col-span-2"/>
-                                    <div className="size-10 content-center">
+                                <div key={s} className="grid grid-cols-2 gap-2 font-bold text-center">
+                                    <div className="size-12 row-span-2"/>
+                                    <div className="size-12 text-2xl content-center">
                                         =
                                     </div>
-                                    <div className={`size-10 content-center rounded-md text-white ${validRows[s] ? "bg-green-500" : "bg-gray-500"}`}>
+                                    <div className={`size-12 content-center rounded-md text-white ${validCols[s] ? "bg-green-500" : "bg-gray-500"}`}>
                                         {sum}
                                     </div>
                                 </div>
@@ -191,23 +209,8 @@ export default function Gamegrid({ gameData, gameOptions }:GameProps) {
                         }
                     </div>
                 </div>
-                <div className="flex w-fit gap-2">
-                    {colSums.map(
-                        (sum:number, s:number) =>
-                            <div key={s} className="grid grid-cols-2 gap-2 text-center">
-                                <div className="size-10 row-span-2"/>
-                                <div className="size-10 content-center">
-                                    =
-                                </div>
-                                <div className={`size-10 content-center rounded-md text-white ${validCols[s] ? "bg-green-500" : "bg-gray-500"}`}>
-                                    {sum}
-                                </div>
-                            </div>
-                        )
-                    }
-                </div>
-                <div className="text-green-700">
-                    {gameState == 3 ? "You Win!!!" : ""}
+                <div className="text-green-700 text-center text-3xl font-semibold mt-8">
+                    {gameState == 3 ? "Winner!!!" : ""}
                 </div>
             </div>
 
