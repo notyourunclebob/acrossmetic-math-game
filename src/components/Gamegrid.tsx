@@ -23,8 +23,8 @@ export default function Gamegrid({ gameData, gameOptions }:GameProps) {
 
     // prevents invalid inputs by disabling key inputs and sets value to key pressed instead of normal input behaviour
     const onKeyDown = (e:any, row:number, col:number) => {
-        // allows backspace, del, tab, esc, enter and arrow keys
-        if ([8, 46, 9 ,27, 13, 37, 38, 39, 40].includes(e.keyCode)) return;
+        // allows tab, esc, enter and arrow keys
+        if ([9 ,27, 13, 37, 38, 39, 40].includes(e.keyCode)) return;
         
         e.preventDefault();
 
