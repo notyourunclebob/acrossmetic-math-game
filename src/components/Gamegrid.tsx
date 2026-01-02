@@ -140,7 +140,7 @@ export default function Gamegrid({ gameData, gameOptions }:GameProps) {
 
             <div className="flex flex-col size-fit gap-2 text-xl">
                 <div>
-                    {gameState <= 2 && data != null ?
+                    {gameState >= 2 && data != null ?
                         <div className="flex gap-2">
                             <div>
                                 {data.gameRows.map(
