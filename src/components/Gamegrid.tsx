@@ -29,6 +29,7 @@ export default function Gamegrid({ gameData, gameOptions }:GameProps) {
         if (e.key >= "1" && e.key <= "9") {
             e.target.value = e.key;
             updateInputs(e, row, col);
+            console.log(e.target.value);
         };
     };
     
@@ -40,8 +41,8 @@ export default function Gamegrid({ gameData, gameOptions }:GameProps) {
 
     // holds a list of user inputs
     const [inputs, setInputs] = useState<Record<number, Record<number, number | undefined>>>({});
-    const [validRows, setValidRows] = useState<Record<number, boolean | undefined>>({});
-    const [validCols, setValidCols] = useState<Record<number, boolean | undefined>>({});
+    const [validRows, setValidRows] = useState<Record<number, boolean>>({});
+    const [validCols, setValidCols] = useState<Record<number, boolean>>({});
 
     const [gameState, setGameState] = useState<number>(0);
 
@@ -57,8 +58,6 @@ export default function Gamegrid({ gameData, gameOptions }:GameProps) {
                 setInputs([]);
                 setValidRows([]);
                 setValidCols([]);
-                setRowSums([]);
-                setColSums([]);
                 setData(generateGame(options));
                 setGameState(2);
             }
@@ -85,17 +84,21 @@ export default function Gamegrid({ gameData, gameOptions }:GameProps) {
             for (let x:number = 0; x < options.gameSize; x++) {
     
                 const rowLength = inputs[x] ? Object.values(inputs[x]).length : 0;
-                const colLength = Object.values(inputs).filter(row => x in row).length;
                 
                 if (rowLength == options.gameSize) {
-    
+                    
                     let isValid:boolean = compareRow(x, rowSums, rowLength, inputs, data!);
     
                     setValidRows(list => ({
                         ...list, [x]: isValid
                     }));
                 };
-    
+            };
+            
+            for (let x:number = 0; x < options.gameSize; x++) {
+                
+                const colLength = Object.values(inputs).filter(row => x in row).length;
+                
                 if (colLength == options.gameSize) {
     
                     let isValid:boolean = compareCol(x, colSums, colLength, inputs, data!);
