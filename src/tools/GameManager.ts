@@ -228,9 +228,9 @@ export function compareRow(row:number, rowSums:number[], rowLength:number, input
 
 /** 
  * Takes a set of parameters from game inputs to calculate and compare sums with colSums returning true if the sums match.
- * @param row The index of the active game column being compared.
- * @param rowSums A list of sums to match for the game goal. The inputs sum at the column index must match the sum at the index here to return true.
- * @param rowLength The length of the column being compared. The length of inputs must match the length of colSums before the function can return true.
+ * @param col The index of the active game column being compared.
+ * @param colSums A list of sums to match for the game goal. The inputs sum at the column index must match the sum at the index here to return true.
+ * @param colLength The length of the column being compared. The length of inputs must match the length of colSums before the function can return true.
  * @param inputs A record list of input numbers to calculate and compare for the game goal.
  * @param data GameData needed to select the correct operations to calculate.
 */
