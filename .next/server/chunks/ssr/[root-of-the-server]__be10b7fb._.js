@@ -13,15 +13,22 @@ __turbopack_context__.s([
     ()=>calculateCols,
     "calculateRows",
     ()=>calculateRows,
+    "compareCol",
+    ()=>compareCol,
+    "compareRow",
+    ()=>compareRow,
     "defaultGameOptions",
     ()=>defaultGameOptions,
     "executeOperation",
     ()=>executeOperation,
     "generateGame",
     ()=>generateGame,
+    "inputValidate",
+    ()=>inputValidate,
     "testGameData",
     ()=>testGameData
 ]);
+const inputValidate = new RegExp("[1-9]");
 function executeOperation(opperator, x, y) {
     // selects approiate operation depending on selected operator
     switch(opperator){
@@ -29,6 +36,10 @@ function executeOperation(opperator, x, y) {
             return x + y;
         case "-":
             return x - y;
+        case "x":
+            return x * y;
+        case "÷":
+            return x / y;
         default:
             throw Error("Unknown operation");
     }
@@ -37,7 +48,7 @@ function executeOperation(opperator, x, y) {
 function defaultGameOptions() {
     // sets game options to default values
     let gameOptions = {
-        gameSize: 9,
+        gameSize: 3,
         gameOperators: [
             {
                 operator: "+"
@@ -132,6 +143,53 @@ function calculateCols(gameData) {
     }
     ;
     return colSums;
+}
+function compareRow(row, rowSums, inputs, data) {
+    let inputSum = 0;
+    let inputsLength = Object.values(inputs).length;
+    // loops through inputs by row to get the sum
+    // if number is not 1-9 returns false
+    for(let x = 0; x < inputsLength; x++){
+        let number = inputs[x];
+        if (inputValidate.test(number.toString())) {
+            let operator = data.gameRows[row].gameCols[x].operatorCol;
+            inputSum = executeOperation(operator, inputSum, number);
+        } else {
+            return false;
+        }
+        ;
+    }
+    ;
+    // checks if the input row sum matches the generated row sum and if the length matches the generated row
+    if (inputSum == rowSums[row] && inputsLength == data.gameRows[row].gameCols.length) {
+        return true;
+    } else {
+        return false;
+    }
+    //TURBOPACK unreachable
+    ;
+}
+function compareCol(col, colSums, inputs, data) {
+    let inputSum = 0;
+    let inputsLength = Object.values(inputs).filter((row)=>col in row).length;
+    for(let x = 0; x < inputsLength; x++){
+        let number = inputs[x][col];
+        if (inputValidate.test(number.toString())) {
+            let operator = data.gameRows[x].gameCols[col].operatorRow;
+            inputSum = executeOperation(operator, inputSum, number);
+        } else {
+            return false;
+        }
+        ;
+    }
+    ;
+    if (inputSum == colSums[col] && inputsLength == data.gameRows.length) {
+        return true;
+    } else {
+        return false;
+    }
+    //TURBOPACK unreachable
+    ;
 }
 function testGameData() {
     // testing data
@@ -346,210 +404,11 @@ function testGameData() {
     return gameData;
 }
 }),
-"[project]/src/components/Gamegrid.tsx [app-ssr] (ecmascript)", ((__turbopack_context__) => {
-"use strict";
+"[project]/src/components/Gamegrid.tsx [app-ssr] (ecmascript)", ((__turbopack_context__, module, exports) => {
 
-__turbopack_context__.s([
-    "default",
-    ()=>Gamegrid
-]);
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react-jsx-dev-runtime.js [app-ssr] (ecmascript)");
-var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$tools$2f$GameManager$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/tools/GameManager.ts [app-ssr] (ecmascript)");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react.js [app-ssr] (ecmascript)");
-"use client";
-;
-;
-;
-function Gamegrid({ gameData, gameOptions }) {
-    // ---------------------------------------------------- action events
-    // ---------------------------------------------------- state variables
-    const [rowSums, setRowSums] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])([]);
-    const [colSums, setColSums] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])([]);
-    const [data, setData] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])();
-    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
-        setData(gameData);
-        if (data != null) {
-            setRowSums((0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$tools$2f$GameManager$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["calculateRows"])(data));
-            setColSums((0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$tools$2f$GameManager$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["calculateCols"])(data));
-            console.log(data);
-        }
-        ;
-    }, [
-        data
-    ]);
-    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "flex flex-col justify-center items-center m-20",
-        children: [
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                    className: "px-3 py-2 rounded-lg bg-amber-600 text-white",
-                    children: "New Game"
-                }, void 0, false, {
-                    fileName: "[project]/src/components/Gamegrid.tsx",
-                    lineNumber: 32,
-                    columnNumber: 17
-                }, this)
-            }, void 0, false, {
-                fileName: "[project]/src/components/Gamegrid.tsx",
-                lineNumber: 31,
-                columnNumber: 13
-            }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "flex flex-col size-fit gap-2",
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "flex gap-2",
-                        children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                children: gameData.gameRows.map((row, r)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: "flex gap-2",
-                                        children: row.gameCols.map((col, c)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                className: "grid grid-cols-2 gap-2 text-center",
-                                                children: [
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "size-8"
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/src/components/Gamegrid.tsx",
-                                                        lineNumber: 44,
-                                                        columnNumber: 45
-                                                    }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "size-8 content-center",
-                                                        children: r > 0 ? col.operatorRow : ""
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/src/components/Gamegrid.tsx",
-                                                        lineNumber: 45,
-                                                        columnNumber: 45
-                                                    }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "size-8 content-center",
-                                                        children: c > 0 ? col.operatorCol : ""
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/src/components/Gamegrid.tsx",
-                                                        lineNumber: 48,
-                                                        columnNumber: 45
-                                                    }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "size-8 bg-amber-200 rounded-md content-center",
-                                                        children: col.number
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/src/components/Gamegrid.tsx",
-                                                        lineNumber: 51,
-                                                        columnNumber: 45
-                                                    }, this)
-                                                ]
-                                            }, c, true, {
-                                                fileName: "[project]/src/components/Gamegrid.tsx",
-                                                lineNumber: 43,
-                                                columnNumber: 41
-                                            }, this))
-                                    }, r, false, {
-                                        fileName: "[project]/src/components/Gamegrid.tsx",
-                                        lineNumber: 40,
-                                        columnNumber: 33
-                                    }, this))
-                            }, void 0, false, {
-                                fileName: "[project]/src/components/Gamegrid.tsx",
-                                lineNumber: 37,
-                                columnNumber: 21
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "bottom-0 left-0 flex flex-col w-fit",
-                                children: rowSums.map((sum, s)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: "grid grid-cols-2 gap-2 text-center",
-                                        children: [
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                className: "size-8 col-span-2"
-                                            }, void 0, false, {
-                                                fileName: "[project]/src/components/Gamegrid.tsx",
-                                                lineNumber: 64,
-                                                columnNumber: 37
-                                            }, this),
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                className: "size-8 content-center",
-                                                children: "="
-                                            }, void 0, false, {
-                                                fileName: "[project]/src/components/Gamegrid.tsx",
-                                                lineNumber: 65,
-                                                columnNumber: 37
-                                            }, this),
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                className: "size-8 content-center",
-                                                children: sum
-                                            }, void 0, false, {
-                                                fileName: "[project]/src/components/Gamegrid.tsx",
-                                                lineNumber: 68,
-                                                columnNumber: 37
-                                            }, this)
-                                        ]
-                                    }, s, true, {
-                                        fileName: "[project]/src/components/Gamegrid.tsx",
-                                        lineNumber: 63,
-                                        columnNumber: 33
-                                    }, this))
-                            }, void 0, false, {
-                                fileName: "[project]/src/components/Gamegrid.tsx",
-                                lineNumber: 60,
-                                columnNumber: 21
-                            }, this)
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/src/components/Gamegrid.tsx",
-                        lineNumber: 36,
-                        columnNumber: 17
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "flex w-fit gap-2",
-                        children: colSums.map((sum, s)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "grid grid-cols-2 gap-2 text-center",
-                                children: [
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: "size-8 row-span-2"
-                                    }, void 0, false, {
-                                        fileName: "[project]/src/components/Gamegrid.tsx",
-                                        lineNumber: 80,
-                                        columnNumber: 33
-                                    }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: "size-8 content-center",
-                                        children: "="
-                                    }, void 0, false, {
-                                        fileName: "[project]/src/components/Gamegrid.tsx",
-                                        lineNumber: 81,
-                                        columnNumber: 33
-                                    }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: "size-8 content-center",
-                                        children: sum
-                                    }, void 0, false, {
-                                        fileName: "[project]/src/components/Gamegrid.tsx",
-                                        lineNumber: 84,
-                                        columnNumber: 33
-                                    }, this)
-                                ]
-                            }, s, true, {
-                                fileName: "[project]/src/components/Gamegrid.tsx",
-                                lineNumber: 79,
-                                columnNumber: 29
-                            }, this))
-                    }, void 0, false, {
-                        fileName: "[project]/src/components/Gamegrid.tsx",
-                        lineNumber: 76,
-                        columnNumber: 17
-                    }, this)
-                ]
-            }, void 0, true, {
-                fileName: "[project]/src/components/Gamegrid.tsx",
-                lineNumber: 35,
-                columnNumber: 13
-            }, this)
-        ]
-    }, void 0, true, {
-        fileName: "[project]/src/components/Gamegrid.tsx",
-        lineNumber: 30,
-        columnNumber: 9
-    }, this);
-}
+const e = new Error("Could not parse module '[project]/src/components/Gamegrid.tsx'\n\nExpected '</', got 'setOptions'");
+e.code = 'MODULE_UNPARSABLE';
+throw e;
 }),
 "[project]/node_modules/next/dist/server/route-modules/app-page/module.compiled.js [app-ssr] (ecmascript)", ((__turbopack_context__, module, exports) => {
 "use strict";
