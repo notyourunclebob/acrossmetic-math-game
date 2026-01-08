@@ -2,16 +2,34 @@
 import { GameCols, GameData, GameOperators, GameOptions, GameRows } from "./game.model";
 
 // game generation values
+
+/**
+ * Set value for the maximum allowed length of the game grid in game generation.
+ * Directly controls the options available to the player.
+ */
 export const MAX_GAME_SIZE = 9;
+
+/** 
+ * Set list of operators used in game generation.
+ * Directly controls the options available to the player.
+*/
 export const ALLOWED_OPERTORS = [
     {operator:"+"},
     {operator:"-"},
     {operator:"x"}
 ];
 
-// regex validation for inputs
+/** 
+ * Regular Experssion used for input validation
+*/
 export const INPUT_VALIDATE = new RegExp("[1-9]");
 
+/** 
+ * Runs a simple operation using parameters.
+ * @param opperator Used to select which operation to use based on a string. "+", "-", "x" or "÷"
+ * @param x First operand used in the operation.
+ * @param y Second operand used in the operation.
+*/
 export function executeOperation(opperator:string, x:number, y:number) {
     
     // selects approiate operation depending on operator
@@ -29,11 +47,14 @@ export function executeOperation(opperator:string, x:number, y:number) {
     };
 };
 
+/** 
+ * Sets game generation options to default values and returns them in a JSON list.
+*/
 export function defaultGameOptions() {
     
     // sets game options to default values
     let gameOptions:GameOptions = {
-        gameSize: 2,
+        gameSize: 3,
         gameOperators: [
             {operator: "+"},
             {operator: "-"},
@@ -43,6 +64,10 @@ export function defaultGameOptions() {
     return(gameOptions);
 };
 
+/** 
+ * Takes GameOptions and uses it to generate a psudo random two dimensional list of operators and operands.
+ * @param gameOptions Data in JSON format
+*/
 export function generateGame(gameOptions:GameOptions) {
 
     // setting up selected game options to use for generationg a new game
@@ -113,6 +138,10 @@ export function generateGame(gameOptions:GameOptions) {
     return gameData;
 };
 
+/** 
+ * Calculates each row in GameData and reurns a list of each sum to serve as a game goal.
+ * @param gameData Data in JSON format.
+*/
 export function calculateRows(gameData:GameData) {
 
     let rowSums:number[] = []; 
@@ -133,6 +162,10 @@ export function calculateRows(gameData:GameData) {
     return rowSums;
 };
 
+/** 
+ * Calculates each coulmn in GameData by the column position in each row and reurns a list of each sum to serve as a game goal.
+ * @param gameData Data in JSON format.
+*/
 export function calculateCols(gameData:GameData) {
 
     let colSums:number[] = [];
@@ -154,6 +187,14 @@ export function calculateCols(gameData:GameData) {
     return colSums;
 };
 
+/** 
+ * Takes a set of parameters from game inputs to calculate and compare sums with rowSums returning true if the sums match.
+ * @param row The index of the active game row being compared.
+ * @param rowSums A list of sums to match for the game goal. The inputs sum at the row index must match the sum at the index here to return true.
+ * @param rowLength The length of the row being compared. The length of inputs must match the length of rowSums before the function can return true.
+ * @param inputs A record list of input numbers to calculate and compare for the game goal.
+ * @param data GameData needed to select the correct operations to calculate.
+*/
 export function compareRow(row:number, rowSums:number[], rowLength:number, inputs:Record<number, Record<number, number | undefined>>, data:GameData) {
 
     let inputSum:number = 0;
@@ -185,6 +226,14 @@ export function compareRow(row:number, rowSums:number[], rowLength:number, input
 
 };
 
+/** 
+ * Takes a set of parameters from game inputs to calculate and compare sums with colSums returning true if the sums match.
+ * @param row The index of the active game column being compared.
+ * @param rowSums A list of sums to match for the game goal. The inputs sum at the column index must match the sum at the index here to return true.
+ * @param rowLength The length of the column being compared. The length of inputs must match the length of colSums before the function can return true.
+ * @param inputs A record list of input numbers to calculate and compare for the game goal.
+ * @param data GameData needed to select the correct operations to calculate.
+*/
 export function compareCol(col:number, colSums:number[], colLength:number,  inputs:Record<number, Record<number, number | undefined>>, data:GameData) {
     
     let inputSum:number = 0;
