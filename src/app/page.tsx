@@ -12,6 +12,8 @@ export default function Home() {
   return (
     <main>
       <Gamegrid gameOptions={gameOptions} gameData={gameData}/>
+
+      <div className="m-5 fixed bottom-0 left-0 w-full">© James Wilson : <a href="https://github.com/notyourunclebob" target="_blank">Github</a></div>
     </main>
   );
 };
