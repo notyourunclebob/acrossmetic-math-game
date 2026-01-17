@@ -43,6 +43,9 @@
   :root, :host {
     --font-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    --color-red-600: #e40014;
+    --color-red-700: #bf000f;
+    --color-orange-400: #ff8b1a;
     --color-amber-200: #fee685;
     --color-amber-400: #fcbb00;
     --color-amber-500: #f99c00;
@@ -67,6 +70,9 @@
 
   @supports (color: color(display-p3 0 0 0)) {
     :root, :host {
+      --color-red-600: color(display-p3 .830323 .140383 .133196);
+      --color-red-700: color(display-p3 .692737 .116232 .104679);
+      --color-orange-400: color(display-p3 .950192 .561807 .211017);
       --color-amber-200: color(display-p3 .979824 .904554 .57325);
       --color-amber-400: color(display-p3 .959186 .738519 .118268);
       --color-amber-500: color(display-p3 .93994 .620584 .0585367);
@@ -79,6 +85,9 @@
 
   @supports (color: lab(0% 0 0)) {
     :root, :host {
+      --color-red-600: lab(48.4493% 77.4328 61.5452);
+      --color-red-700: lab(40.4273% 67.2623 53.7441);
+      --color-orange-400: lab(70.0429% 42.5156 75.8207);
       --color-amber-200: lab(91.7203% -.505269 49.9084);
       --color-amber-400: lab(80.1641% 16.6016 99.2089);
       --color-amber-500: lab(72.7183% 31.8672 97.9407);
@@ -637,6 +646,10 @@
     justify-content: center;
   }
 
+  .gap-1 {
+    gap: calc(var(--spacing) * 1);
+  }
+
   .gap-2 {
     gap: calc(var(--spacing) * 2);
   }
@@ -717,6 +730,18 @@
 
   .text-green-700 {
     color: var(--color-green-700);
+  }
+
+  .text-orange-400 {
+    color: var(--color-orange-400);
+  }
+
+  .text-red-600 {
+    color: var(--color-red-600);
+  }
+
+  .text-red-700 {
+    color: var(--color-red-700);
   }
 
   .text-white {

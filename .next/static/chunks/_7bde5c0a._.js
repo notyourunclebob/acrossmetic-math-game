@@ -239,8 +239,6 @@ function GameMenu(param) {
                     }
                 ];
             }
-            //TURBOPACK unreachable
-            ;
         });
     };
     const newGame = (e)=>{
@@ -261,7 +259,6 @@ function GameMenu(param) {
                 setSelectedSize(options.gameSize);
                 setSelectedOperators(options.gameOperators);
             }
-            ;
         }
     }["GameMenu.useEffect"], [
         options
@@ -273,7 +270,6 @@ function GameMenu(param) {
             } else {
                 setValidOptions(true);
             }
-            ;
         }
     }["GameMenu.useEffect"], [
         selectedSize,
@@ -289,8 +285,8 @@ function GameMenu(param) {
                         children: "Game size:"
                     }, void 0, false, {
                         fileName: "[project]/src/components/GameMenu.tsx",
-                        lineNumber: 56,
-                        columnNumber: 17
+                        lineNumber: 68,
+                        columnNumber: 9
                     }, this),
                     Array.from({
                         length: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$tools$2f$GameManager$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["MAX_GAME_SIZE"] - 1
@@ -305,8 +301,8 @@ function GameMenu(param) {
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/GameMenu.tsx",
-                                    lineNumber: 61,
-                                    columnNumber: 29
+                                    lineNumber: 73,
+                                    columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                                     type: "radio",
@@ -317,21 +313,21 @@ function GameMenu(param) {
                                     onChange: (e)=>setSelectedSize(e.target.value)
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/GameMenu.tsx",
-                                    lineNumber: 62,
-                                    columnNumber: 29
+                                    lineNumber: 74,
+                                    columnNumber: 15
                                 }, this)
                             ]
                         }, x, true, {
                             fileName: "[project]/src/components/GameMenu.tsx",
-                            lineNumber: 60,
-                            columnNumber: 25
+                            lineNumber: 72,
+                            columnNumber: 13
                         }, this);
                     })
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/GameMenu.tsx",
-                lineNumber: 55,
-                columnNumber: 13
+                lineNumber: 67,
+                columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "flex gap-2",
@@ -340,8 +336,8 @@ function GameMenu(param) {
                         children: "Operators:"
                     }, void 0, false, {
                         fileName: "[project]/src/components/GameMenu.tsx",
-                        lineNumber: 76,
-                        columnNumber: 17
+                        lineNumber: 88,
+                        columnNumber: 9
                     }, this),
                     __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$tools$2f$GameManager$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["ALLOWED_OPERTORS"].map((operators)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             children: [
@@ -349,8 +345,8 @@ function GameMenu(param) {
                                     children: operators.operator
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/GameMenu.tsx",
-                                    lineNumber: 79,
-                                    columnNumber: 25
+                                    lineNumber: 91,
+                                    columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                                     type: "checkbox",
@@ -361,36 +357,69 @@ function GameMenu(param) {
                                     onChange: ()=>onOperatorSelect(operators)
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/GameMenu.tsx",
-                                    lineNumber: 80,
-                                    columnNumber: 25
+                                    lineNumber: 92,
+                                    columnNumber: 13
                                 }, this)
                             ]
                         }, operators.operator, true, {
                             fileName: "[project]/src/components/GameMenu.tsx",
-                            lineNumber: 78,
-                            columnNumber: 21
-                        }, this))
+                            lineNumber: 90,
+                            columnNumber: 11
+                        }, this)),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                        className: "text-red-600 ".concat(validOptions ? "hidden" : "block"),
+                        children: "Select an operator"
+                    }, void 0, false, {
+                        fileName: "[project]/src/components/GameMenu.tsx",
+                        lineNumber: 108,
+                        columnNumber: 9
+                    }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/GameMenu.tsx",
-                lineNumber: 75,
-                columnNumber: 13
+                lineNumber: 87,
+                columnNumber: 7
             }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                className: "w-25 h-10 rounded-md ".concat(validOptions ? "bg-amber-500 text-white hover:bg-amber-400" : "bg-white text-gray-500 border border-amber-500"),
-                onClick: newGame,
-                disabled: !validOptions,
-                children: "New Game"
-            }, void 0, false, {
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "flex items-center gap-2",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                        className: "w-25 h-10 rounded-md ".concat(validOptions ? "bg-amber-500 text-white hover:bg-amber-400" : "bg-white text-gray-500 border border-amber-500"),
+                        onClick: newGame,
+                        disabled: !validOptions,
+                        children: "New Game"
+                    }, void 0, false, {
+                        fileName: "[project]/src/components/GameMenu.tsx",
+                        lineNumber: 113,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                        className: "text-orange-400 ".concat(selectedOperators.some((op)=>op.operator == "x") && selectedSize != null && selectedSize > 4 ? "block" : "hidden"),
+                        children: [
+                            "*Game size above 4x and using 'x'",
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {}, void 0, false, {
+                                fileName: "[project]/src/components/GameMenu.tsx",
+                                lineNumber: 128,
+                                columnNumber: 11
+                            }, this),
+                            " may have sums too large for the grid*"
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/src/components/GameMenu.tsx",
+                        lineNumber: 124,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
                 fileName: "[project]/src/components/GameMenu.tsx",
-                lineNumber: 92,
-                columnNumber: 13
+                lineNumber: 112,
+                columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/GameMenu.tsx",
-        lineNumber: 54,
-        columnNumber: 9
+        lineNumber: 66,
+        columnNumber: 5
     }, this);
 }
 _s(GameMenu, "rUcpVp+6Os8IBOQnBPxPiurI71w=");
