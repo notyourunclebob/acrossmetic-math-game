@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import {
   GameProps,
   GameCols,
@@ -18,6 +18,13 @@ import {
 import GameMenu from "./GameMenu";
 
 export default function Gamegrid({ gameData, gameOptions }: GameProps) {
+  // ----------------------------------------------------- interface
+  // object model used for focusing on a game cell
+  interface FocusedCell {
+    row: number;
+    col: number;
+  }
+
   // ---------------------------------------------------- action events
 
   // updates the input list with imputs maintaining their respective row and col index
@@ -33,19 +40,6 @@ export default function Gamegrid({ gameData, gameOptions }: GameProps) {
     }));
   };
 
-  // prevents invalid inputs by disabling key inputs and sets value to key pressed instead of normal input behaviour
-  const onKeyDown = (e: any, row: number, col: number) => {
-    // allows tab, esc, enter and arrow keys
-    if ([9, 27, 13, 37, 38, 39, 40].includes(e.keyCode)) return;
-
-    e.preventDefault();
-
-    if (e.key >= "1" && e.key <= "9") {
-      e.target.value = e.key;
-      updateInputs(e, row, col);
-    }
-  };
-
   // ---------------------------------------------------- state variables
   const [rowSums, setRowSums] = useState<number[]>([]);
   const [colSums, setColSums] = useState<number[]>([]);
@@ -59,12 +53,95 @@ export default function Gamegrid({ gameData, gameOptions }: GameProps) {
   const [validRows, setValidRows] = useState<Record<number, boolean>>({});
   const [validCols, setValidCols] = useState<Record<number, boolean>>({});
 
+  // tracks selected elements
+  const [focused, setFocused] = useState<FocusedCell>({ row: 0, col: 0 });
+  // use ref to switch selection of inputs
+  const inputRef = useRef<(HTMLInputElement | null)[][]>([]);
+
   // gameStates:
   // 0 - inital render
   // 1 - generate new game
   // 2 - game in play
   // 3 - game victory
   const [gameState, setGameState] = useState<number>(0);
+
+  // --------------------------------------------------------------- useCallback
+  // used to track arrow key selections by row and col
+  // useCallback has alot of compute overhead so its only used because this function will be called often
+  const onKeyDown = useCallback(
+    (e: React.KeyboardEvent, r: number, c: number) => {
+      // if options arent set defaults to 1 to avoid divide by 0 errors
+      const rowCount = gameData.gameRows.length;
+      const colCount = gameData.gameRows[r].gameCols.length;
+      let nextRow = r;
+      let nextCol = c;
+
+      switch (e.key) {
+        // ------------------- arrow navigation logic
+        case "ArrowUp":
+          if (r > 0) nextRow = r - 1;
+          e.preventDefault();
+          break;
+        case "ArrowDown":
+          if (r < rowCount - 1) nextRow = r + 1;
+          e.preventDefault();
+          break;
+        case "ArrowLeft":
+          if (c > 0) nextCol = c - 1;
+          e.preventDefault();
+          break;
+        case "ArrowRight":
+          if (c < colCount - 1) nextCol = c + 1;
+          e.preventDefault();
+          break;
+        // ------------------ for default browser behaviour
+        case "Tab":
+        case "Escape":
+        case "Enter":
+          return;
+        // ------------------ number input logic
+        default:
+          e.preventDefault();
+          if (e.key >= "1" && e.key <= "9") {
+            (e.target as HTMLInputElement).value = e.key;
+            // trigger animation when pressed
+            inputPress(r, c, "valid");
+            updateInputs(e, r, c);
+          } else {
+            inputPress(r, c, "invalid");
+          }
+          return;
+      }
+
+      if (nextRow !== r || nextCol !== c) {
+        setFocused({ row: nextRow, col: nextCol });
+        inputRef.current[nextRow]?.[nextCol]?.focus();
+      }
+    },
+    [gameData, updateInputs],
+  );
+
+  // adds and removes a css class to trigger imput animation
+  const inputPress = useCallback(
+    (r: number, c: number, type: "valid" | "invalid") => {
+      const input = inputRef.current[r]?.[c];
+      if (!input) return;
+
+      const cssClass = type == "valid" ? "pressed-valid" : "pressed-invalid";
+
+      input.classList.add(cssClass);
+      setTimeout(() => input.classList.remove(cssClass), 150);
+    },
+    [],
+  );
+
+  // ------------------------------------------------------------------- useEffect
+  // initializes the 2d ref array when data changes
+  useEffect(() => {
+    inputRef.current = gameData.gameRows.map((row) =>
+      row.gameCols.map(() => null),
+    );
+  }, [gameData]);
 
   // sets game data to a useState and updates data when changed
   useEffect(() => {
@@ -166,7 +243,7 @@ export default function Gamegrid({ gameData, gameOptions }: GameProps) {
                   <div key={r} className="flex gap-2">
                     {row.gameCols.map((col: GameCols, c: number) => (
                       <div
-                        key={c}
+                        key={`${r}-${c}`}
                         className="grid grid-cols-2 gap-2 font-bold text-center"
                       >
                         <div className="size-12" />
@@ -177,16 +254,18 @@ export default function Gamegrid({ gameData, gameOptions }: GameProps) {
                           {c > 0 ? col.operatorCol : ""}
                         </div>
                         <input
+                          ref={(el) => {
+                            inputRef.current[r][c] = el;
+                          }}
                           type="number"
                           min="1"
                           max="9"
                           value={inputs[r]?.[c] ?? ""}
                           onKeyDown={(e) => onKeyDown(e, r, c)}
                           onChange={(e) => updateInputs(e, r, c)}
+                          onFocus={() => setFocused({ row: r, col: c })}
                           disabled={gameState == 3}
-                          className={`size-12 rounded-md text-center ${
-                            gameState == 3 ? "bg-gray-300" : "bg-amber-200 "
-                          }`}
+                          className="game-input"
                         />
                       </div>
                     ))}
@@ -202,7 +281,12 @@ export default function Gamegrid({ gameData, gameOptions }: GameProps) {
                     <div className="size-12 col-span-2" />
                     <div className="size-12 text-2xl content-center">=</div>
                     <div
-                      className={`size-12 content-center rounded-md text-white ${validRows[s] ? "bg-green-500" : "bg-gray-500"}`}
+                      className={`game-sum ${validRows[s] ? "correct-sum" : ""}`}
+                      style={
+                        validRows[s]
+                          ? { backgroundColor: "yellowgreen" }
+                          : { backgroundColor: "gray" }
+                      }
                     >
                       {sum}
                     </div>
@@ -222,7 +306,12 @@ export default function Gamegrid({ gameData, gameOptions }: GameProps) {
                 <div className="size-12 row-span-2" />
                 <div className="size-12 text-2xl content-center">=</div>
                 <div
-                  className={`size-12 content-center rounded-md text-white ${validCols[s] ? "bg-green-500" : "bg-gray-500"}`}
+                  className={`game-sum ${validCols[s] ? "correct-sum" : ""}`}
+                  style={
+                    validCols[s]
+                      ? { backgroundColor: "yellowgreen" }
+                      : { backgroundColor: "gray" }
+                  }
                 >
                   {sum}
                 </div>
@@ -231,9 +320,7 @@ export default function Gamegrid({ gameData, gameOptions }: GameProps) {
             <div className="size-26" />
           </div>
         </div>
-        <div className="text-green-700 text-center text-3xl font-semibold mt-8">
-          {gameState == 3 ? "Winner!!!" : ""}
-        </div>
+        <div className="message">{gameState == 3 ? "Winner!!!" : ""}</div>
       </div>
     </div>
   );
