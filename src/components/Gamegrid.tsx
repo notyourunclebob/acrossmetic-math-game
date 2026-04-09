@@ -40,19 +40,6 @@ export default function Gamegrid({ gameData, gameOptions }: GameProps) {
     }));
   };
 
-  // // prevents invalid inputs by disabling key inputs and sets value to key pressed instead of normal input behaviour
-  // const onKeyDown = (e: any, row: number, col: number) => {
-  //   // allows tab, esc, enter and arrow keys
-  //   if ([9, 27, 13, 37, 38, 39, 40].includes(e.keyCode)) return;
-
-  //   e.preventDefault();
-
-  //   if (e.key >= "1" && e.key <= "9") {
-  //     e.target.value = e.key;
-  //     updateInputs(e, row, col);
-  //   }
-  // };
-
   // ---------------------------------------------------- state variables
   const [rowSums, setRowSums] = useState<number[]>([]);
   const [colSums, setColSums] = useState<number[]>([]);
@@ -67,7 +54,6 @@ export default function Gamegrid({ gameData, gameOptions }: GameProps) {
   const [validCols, setValidCols] = useState<Record<number, boolean>>({});
 
   // tracks selected elements
-  const [selectedIndex, setSelectedIndex] = useState(0);
   const [focused, setFocused] = useState<FocusedCell>({ row: 0, col: 0 });
   // use ref to switch selection of inputs
   const inputRef = useRef<(HTMLInputElement | null)[][]>([]);
@@ -118,6 +104,8 @@ export default function Gamegrid({ gameData, gameOptions }: GameProps) {
           e.preventDefault();
           if (e.key >= "1" && e.key <= "9") {
             (e.target as HTMLInputElement).value = e.key;
+            // trigger animation when pressed
+            inputPress(r, c);
             updateInputs(e, r, c);
           }
           return;
@@ -130,6 +118,15 @@ export default function Gamegrid({ gameData, gameOptions }: GameProps) {
     },
     [gameData, updateInputs],
   );
+
+  // adds and removes a css class to trigger imput animation
+  const inputPress = useCallback((r: number, c: number) => {
+    const input = inputRef.current[r]?.[c];
+    if (!input) return;
+
+    input.classList.add("pressed");
+    setTimeout(() => input.classList.remove("pressed"), 150);
+  }, []);
 
   // ------------------------------------------------------------------- useEffect
   // initializes the 2d ref array when data changes
@@ -261,9 +258,7 @@ export default function Gamegrid({ gameData, gameOptions }: GameProps) {
                           onChange={(e) => updateInputs(e, r, c)}
                           onFocus={() => setFocused({ row: r, col: c })}
                           disabled={gameState == 3}
-                          className={`size-12 rounded-md text-center ${
-                            gameState == 3 ? "bg-gray-300" : "bg-amber-200 "
-                          }`}
+                          className="game-input"
                         />
                       </div>
                     ))}
