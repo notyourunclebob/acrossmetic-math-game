@@ -1,6 +1,9 @@
 @import "tailwindcss";
 
 
+
+
+/* *** inputs *** */
 input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;
 }
@@ -10,24 +13,96 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
     width: 3rem;
     border-radius: 0.5rem;
     background-color: orange;
-
+    
+    text-align: center;
+    caret-color: transparent;
+    user-select: none;
+    
     transition: transform .1s .05s ease-in-out,
-                box-shadow .1s .05s ease-in-out;
-
+    box-shadow .1s .05s ease-in-out;
+    
     &:focus {
         outline: none;
         transform: scale(1.2);
         box-shadow: 5px 8px 8px lightgrey;
     }
+    
+    &:disabled {
+        background-color: gray;
+    }
 }
 
 /* amimation on number key press */
-@keyframes press {
-  0%   { transform: scale(1); }
-  30%  { transform: scale(1.1); }
-  100% { transform: scale(1.2); }
+@keyframes press-valid {
+    0% { transform: scale(1.2); }
+    30% { transform: scale(1); }
+    100% { transform: scale(1.2); }
 }
 
-.pressed {
-  animation: press 0.15s ease forwards;
+@keyframes press-invalid {
+    0% { transform: translate(0); }
+    25% { transform: translateX(5px); }
+    50% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+    100% { transform: translate(0); }
 }
+
+.pressed-valid {
+    animation: press-valid 0.15s ease forwards;
+}
+
+.pressed-invalid {
+    animation: press-invalid 0.15s ease forwards;
+}
+
+/* *** sum goals *** */
+.game-sum {
+    height: 3rem;
+    width: 3rem;
+    border-radius: 0.5rem;
+    color: white;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    transition: background-color 0.15s ease-in, transform 0.1s .05s ease-in, box-shadow .1s .05s ease-in;
+}
+
+/* animation for correct sum */
+@keyframes blink {
+    0% {background-color: gray; transform: scale(1);}
+    100%{background-color: yellowgreen; transform: scale(1.2); box-shadow: 0px 4px 8px 1px greenyellow }
+}
+
+.correct-sum {
+    animation: blink 0.15s ease forwards;
+}
+
+/* *** victory message *** */
+
+
+@keyframes popup {
+    from {transform: rotateX(90deg);}
+    to {transform: rotateX(0deg);}
+}
+
+.message {
+    margin-top: 2rem;
+
+    color: green;
+    text-align: center;
+
+    font-size: xx-large;
+    font-weight: 900;
+
+    perspective: 1000px;
+    transform-style: preserve-3d;
+}
+
+/* .victory {
+    display: block;
+
+    animation: popup 1.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    transform-origin: 80% 90%;
+} */

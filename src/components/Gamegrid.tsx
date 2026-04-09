@@ -105,8 +105,10 @@ export default function Gamegrid({ gameData, gameOptions }: GameProps) {
           if (e.key >= "1" && e.key <= "9") {
             (e.target as HTMLInputElement).value = e.key;
             // trigger animation when pressed
-            inputPress(r, c);
+            inputPress(r, c, "valid");
             updateInputs(e, r, c);
+          } else {
+            inputPress(r, c, "invalid");
           }
           return;
       }
@@ -120,13 +122,18 @@ export default function Gamegrid({ gameData, gameOptions }: GameProps) {
   );
 
   // adds and removes a css class to trigger imput animation
-  const inputPress = useCallback((r: number, c: number) => {
-    const input = inputRef.current[r]?.[c];
-    if (!input) return;
+  const inputPress = useCallback(
+    (r: number, c: number, type: "valid" | "invalid") => {
+      const input = inputRef.current[r]?.[c];
+      if (!input) return;
 
-    input.classList.add("pressed");
-    setTimeout(() => input.classList.remove("pressed"), 150);
-  }, []);
+      const cssClass = type == "valid" ? "pressed-valid" : "pressed-invalid";
+
+      input.classList.add(cssClass);
+      setTimeout(() => input.classList.remove(cssClass), 150);
+    },
+    [],
+  );
 
   // ------------------------------------------------------------------- useEffect
   // initializes the 2d ref array when data changes
@@ -274,7 +281,12 @@ export default function Gamegrid({ gameData, gameOptions }: GameProps) {
                     <div className="size-12 col-span-2" />
                     <div className="size-12 text-2xl content-center">=</div>
                     <div
-                      className={`size-12 content-center rounded-md text-white ${validRows[s] ? "bg-green-500" : "bg-gray-500"}`}
+                      className={`game-sum ${validRows[s] ? "correct-sum" : ""}`}
+                      style={
+                        validRows[s]
+                          ? { backgroundColor: "yellowgreen" }
+                          : { backgroundColor: "gray" }
+                      }
                     >
                       {sum}
                     </div>
@@ -294,7 +306,12 @@ export default function Gamegrid({ gameData, gameOptions }: GameProps) {
                 <div className="size-12 row-span-2" />
                 <div className="size-12 text-2xl content-center">=</div>
                 <div
-                  className={`size-12 content-center rounded-md text-white ${validCols[s] ? "bg-green-500" : "bg-gray-500"}`}
+                  className={`game-sum ${validCols[s] ? "correct-sum" : ""}`}
+                  style={
+                    validCols[s]
+                      ? { backgroundColor: "yellowgreen" }
+                      : { backgroundColor: "gray" }
+                  }
                 >
                   {sum}
                 </div>
@@ -303,9 +320,7 @@ export default function Gamegrid({ gameData, gameOptions }: GameProps) {
             <div className="size-26" />
           </div>
         </div>
-        <div className="text-green-700 text-center text-3xl font-semibold mt-8">
-          {gameState == 3 ? "Winner!!!" : ""}
-        </div>
+        <div className="message">{gameState == 3 ? "Winner!!!" : ""}</div>
       </div>
     </div>
   );
