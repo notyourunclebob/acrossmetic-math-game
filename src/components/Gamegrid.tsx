@@ -141,6 +141,8 @@ export default function Gamegrid({ gameData, gameOptions }: GameProps) {
     inputRef.current = gameData.gameRows.map((row) =>
       row.gameCols.map(() => null),
     );
+
+    inputRef.current[0]?.[0]?.focus();
   }, [gameData]);
 
   // sets game data to a useState and updates data when changed
@@ -255,6 +257,9 @@ export default function Gamegrid({ gameData, gameOptions }: GameProps) {
                         </div>
                         <input
                           ref={(el) => {
+                            if (!inputRef.current[r]) {
+                              inputRef.current[r] = [];
+                            }
                             inputRef.current[r][c] = el;
                           }}
                           type="number"
